@@ -27,13 +27,14 @@ class Company(models.Model):
 class employee(models.Model):
     gongHao = models.CharField(max_length=50, primary_key = True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=50, null=True, blank=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, null=True, blank=True, default='(No name)')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, default=2)
     email = models.CharField(max_length=100, null=True, blank=True)
     lineid = models.CharField(max_length=150, null=False, blank=True, default='no')
     line_username = models.CharField(max_length=150, null=False, blank=True, default='no')
     contact_num = models.CharField(max_length=100, null=True, blank=True)
     password = models.CharField(max_length=50, null=False, blank=True)
+    emergency_contact = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
