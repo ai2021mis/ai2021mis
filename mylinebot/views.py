@@ -76,6 +76,10 @@ def callback(request):
                         flex_message = login_flex_message()
                         message = FlexSendMessage(alt_text='@點此登入系統', contents=flex_message)
 
+                    elif sent_message == '@控制台':
+                        flex_message = website_flex_message()
+                        message = FlexSendMessage(alt_text='@點此登入網頁控制台', contents=flex_message)
+
                     elif sent_message[:1] == '@' and len(sent_message) > 8:
                         username = 'none'
                         password = 'none'
@@ -122,6 +126,10 @@ def callback(request):
                 # funtions after user logged in
                 elif mode != 'no' and sent_message =='@管理員登入':
                     message = TextSendMessage(text=f'『{user_name}』已經是系統管理員')
+
+                elif sent_message == '@控制台':
+                    flex_message = website_flex_message()
+                    message = FlexSendMessage(alt_text='@點此登入網頁控制台', contents=flex_message)
 
                 elif sent_message == '@查看':
                     message = TextSendMessage(text='好的請稍候～')
@@ -174,6 +182,13 @@ def callback(request):
                             message = TextSendMessage(text=f'已解除警報『{alert_id}』')
                     except Exception:
                         message = TextSendMessage(text='解除警報失敗，請聯繫管理員')
+
+                elif sent_message == '@常用聯繫人':
+                    if employee.objects.filter(lineid=user_id).exists():
+                        user = employee.objects.get(lineid=user_id)
+                        emergency_contact = "常用聯繫人\n" + str(user.emergency_contact)
+                    message = TextSendMessage(text=emergency_contact)
+
                 elif sent_message == 'admin activate':
                     pass
                 else:
@@ -238,6 +253,31 @@ def login_flex_message():
                     "align": "start",
                     "gravity": "center",
                     "wrap": True
+                  }
+                ]
+              }
+            }
+    return message
+
+
+def website_flex_message():
+    website_host = settings.WEB_HOST
+    url = website_host + reverse('homepage')
+    message ={
+              "type": "bubble",
+              "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "button",
+                    "action": {
+                      "type": "uri",
+                      "label": "網頁控制台",
+                      "uri": url
+                    },
+                    "style": "primary",
+                    "margin": "sm"
                   }
                 ]
               }
