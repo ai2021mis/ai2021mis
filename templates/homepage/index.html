@@ -1,7 +1,9 @@
 {% extends 'website_base/base.html' %}
 {% block title %} 主頁|控制台 {% endblock %}
 
+{{list_data|safe}}
 {% block content %}
+
 
 <!-- PAGE CONTENT-->
 <div class="page-content--bgf7">
@@ -180,57 +182,102 @@
                             </div>
                         </div>
                     </div>
-
+                
 
 
 
 
                     <!-- END CHART PERCENT-->
 <!--
-<div class="container">
-    <div class="row my-3">
-        <div class="col">
-            <h4>Bootstrap 4 Chart.js</h4>
-        </div>
-    </div>
-    <div class="row py-2">
-        <div class="col-md-4 py-1">
-            <div class="card">
-                <div class="card-body">
-                    <canvas id="chDonut1"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 py-1">
-            <div class="card">
-                <div class="card-body">
-                    <canvas id="chDonut2"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 py-1">
-            <div class="card">
-                <div class="card-body">
-                    <canvas id="chDonut3"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    <div class="container">
+                        <div class="row my-3">
+                            <div class="col">
+                                <h4>Bootstrap 4 Chart.js</h4>
+                            </div>
+                        </div>
+                        <div class="row py-2">
+                            <div class="col-md-4 py-1">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <canvas id="chDonut1"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 py-1">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <canvas id="chDonut2"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 py-1">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <canvas id="chDonut3"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 -->
-
-
-
-
-
-
-
                 </div>
             </div>
         </div>
     </section>
     <!-- END STATISTIC CHART-->
+    
+    <!--IMAGE SLIDER-->
+    <section>
+        <div class="container">
+            <div class="w3-content" style="max-width:800px">
+                <img class="mySlides" src="https://photographycourse.net/wp-content/uploads/2014/11/Landscape-Photography-steps.jpg" style="width:100%">
+                <img class="mySlides" src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg" style="width:100%">
+                <img class="mySlides" src="https://cdn.theatlantic.com/thumbor/geXz--6uEjMdFqOvZq-3U_mbjHg=/1200x888/media/img/photo/2020/11/top-shots-2020-international-landsc/a01_Yuen_MagicalNight/original.jpg" style="width:100%">
+              </div>
+              
+              <div class="w3-center">
+                <div class="w3-section">
+                  <button class="w3-button w3-light-grey" onclick="plusDivs(-1)">❮ Prev</button>
+                  <button class="w3-button w3-light-grey" onclick="plusDivs(1)">Next ❯</button>
+                </div>
+                <!--
+                <button class="w3-button demo" onclick="currentDiv(1)">1</button> 
+                <button class="w3-button demo" onclick="currentDiv(2)">2</button> 
+                <button class="w3-button demo" onclick="currentDiv(3)">3</button>
+                --> 
+              </div>
+        </div>
+    </section>
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+        
+        function plusDivs(n) {
+          showDivs(slideIndex += n);
+        }
+        
+        function currentDiv(n) {
+          showDivs(slideIndex = n);
+        }
+        
+        function showDivs(n) {
+          var i;
+          var x = document.getElementsByClassName("mySlides");
+          var dots = document.getElementsByClassName("demo");
+          if (n > x.length) {slideIndex = 1}    
+          if (n < 1) {slideIndex = x.length}
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";  
+          }
+          for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-red", "");
+          }
+          x[slideIndex-1].style.display = "block";  
+          dots[slideIndex-1].className += " w3-red";
+        }
+    </script>
+    <!--END IMAGE SLIDER-->
 
     <!-- DATA TABLE-->
     <section class="p-t-20">
@@ -238,6 +285,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="title-5 m-b-35"></h3>
+
+                    <!--
                     <div class="table-data__tool">
                         <div class="table-data__tool-left">
                             <div class="rs-select2--light rs-select2--md">
@@ -262,13 +311,14 @@
                                 </select>
                                 <div class="dropDownSelect2"></div>
                             </div>
-                            <!--
+
+
                             <button class="au-btn-filter">
                                 <i class="zmdi zmdi-filter-list"></i>filters</button>
-                            -->
-
+                            
                         </div>
-                        <!--
+                        
+                        
                         <div class="table-data__tool-right">
                             <button class="au-btn au-btn-icon au-btn--green au-btn--small">
                                 <i class="zmdi zmdi-plus"></i>add item</button>
@@ -281,71 +331,147 @@
                                 <div class="dropDownSelect2"></div>
                             </div>
                         </div>
-                        -->
+                        
                     </div>
+-->
+
                     <div class="table-responsive table-responsive-data2">
                         <table class="table table-data2">
                             <thead>
-                                <tr>
-                                    <th>
+                                <tr style="text-align:center">
+                                    <!--<th>
                                         <label class="au-checkbox">
                                             <input type="checkbox">
                                             <span class="au-checkmark"></span>
                                         </label>
-                                    </th>
-                                    <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Alert</th>
-                                    <th>Date/Time</th>
-                                    <th>status</th>
+                                    </th>-->
 
-                                    <th></th>
+                                    <th style="font-size:120%">ID</th>
+                                    <th style="font-size:120%">Title</th>
+                                    <th style="font-size:120%">Alert</th>
+                                    <th style="font-size:120%">Date/Time</th>
+                                    <th style="font-size:120%">status</th>
+
+
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="alert-table">
 
                                 <label id = "demo"></label>
+                                {%for x in alert_list.0%}
+                                    <tr class="tr-shadow" style="text-align:center">
 
-
-
-            {% for a in data %}
+                                        <td>{{x.0}}</td>
+                                        <td>{{x.1}}</td>
+                                        <td>{{x.2}}</td>
+                                        <td>{{x.3}}</td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td></td>
+                                    <td><button class ="btn" onclick="prev()">prev</button></td>
+                                    <td><button class ="btn" onclick="next()">next</button></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                
 <!--
-            {% if a.2 == 'Dangerous behavior exists'%}
-                {{a.1}}
-            {%endif%}
--->
-                    {% if a.2 == '無危險行為'%}
-                                <tr class="tr-shadow">
-                    {%else%}
-                                <tr class="tr-shadow" style="background-color:#faf0e6;">
-                    {%endif%}
+                                {%for x in c.0%}
+                                    <tr class = "tr-shadow" style="text-align:center">
+                                        <td>{{x.id}}</td>
+                                        <td>{{x.title}}</td>
+                                        <td>{{x.alert}}</td>
+                                        <td>{{x.created_at}}</td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td></td>
+                                    <td><button onclick="prev()">prev</button></td>
+                                    <td><button onclick="next()">next</button></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>-->
+
+<!--
+                                {% if test_index > 10 %}
+                                    {% for x in "i"|rjust:"10" %}
+                                        test
+                                        {{x}}
+                                        <tr class = "tr-shadow" style="text-align:center">
+                                            <td>test</td>
+                                            <td>{{test_dict.x.title}}</td>
+                                            <td>{{test_dict.x.alert_choice}}</td>
+                                            <td>{{test_dict.x.created_at}}</td>
+                                            <td></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    {% regroup test_dict by index as test_dict_tuple %}
+                                    {% for x in "i"|rjust:"10"%}
+                                        {%for index, dict in test_dict_tiple%}
+                                            {% for y in index%}
+                                                {% if y == x %}
+                                                    <tr class = "tr-shadow" style="text-align:center">
+                                                        <td>{{dict.id}}</td>
+                                                        <td>{{dict.title}}</td>
+                                                        <td>{{dict.alert}}</td>
+                                                        <td>{{dict.created_at}}</td>
+                                                        <td></td>
+                                                    </tr>
+                                                {%endif%}
+                                            {%endfor%}
+                                        {%endfor%}
+                                    {% endfor %}
+                                {%endif%}
+                                <tr>
+                                    <td></td>
+                                    <td><button onclick="prev()">prev</button></td>
+                                    <td><button onclick="next()">next</button></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>-->
+
+<!--
+                        {% for a in data %}
+                            {% if a.2 == '無危險行為'%}
+                                <tr class="tr-shadow" style="text-align:center">
+                            {%else%}
+                                <tr class="tr-shadow" style="background-color:#faf0e6;text-align:center">
+                            {%endif%}
+
+                                    <td><a href='/website/detail/{{a.0}}' style="font-size:120%">{{a.0}}</a></td>
+                                    <td></td>
+                                    <td><span style="font-size:120%">{{a.1}}</span><td>
+                                    <td class="desc" style="font-size:120%">{{a.2}}</td>
+                                    <td><span style="font-size:120%">{{a.3}}</span></td>
+
+                                {% if a.2 == '無危險行為'%}
+                                    <td>
+                                        <span class="status--process" style="font-size:120%">安全</span>
+                                    </td>
+                                {% else %}
+                                     <td>
+                                        <span class="status--denied" style="font-size:120%">危險</span>
+                                    </td>
+                                {%endif%}
+
+                                </tr>
+                        {%endfor%}
+                            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>-->
+
+<!--
                                     <td style="color:red;">
+
                                         <label class="au-checkbox"  >
                                             <input type="checkbox">
                                             <span class="au-checkmark"></span>
                                         </label>
-                                    </td>
-                                    <td><a href='/website/detail/{{a.0}}'>{{a.0}}</a></td>
 
-                                    <td>
+                                    </td>-->
 
-                                        <span>{{a.1}}</span>
-                                    </td>
-                                    <td class="desc">{{a.2}}</td>
-                                    <td><span class="block-email">{{a.3}} </span></td>
-
-                                {% if a.2 == '無危險行為'%}
-                                    <td>
-                                        <span class="status--process">安全</span>
-
-                                    </td>
-                                {% else %}
-                                     <td>
-                                        <span class="status--denied">危險</span>
-                                    </td>
-                                {%endif%}
-                                   <!-- <td>$1199.00</td> -->
-                                    <td>
+                                <!--<td>
 
                                         <div class="table-data-feature">
                                             <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
@@ -353,13 +479,7 @@
                                             </button>
 
                                         </div>
-                                    </td>
-                                </tr>
-
-
-            {%endfor%}
-
-
+                                    </td>-->
 
 
                             </tbody>
@@ -371,5 +491,86 @@
     </section>
     <!-- END DATA TABLE-->
 </div>
+<script>
+    //const tbodyEL = document.querySelector("tbody");
+    const tbodyEL = document.getElementById("alert-table");
+    var data = JSON.parse("{{data|escapejs}}");
+    var i=0;
+    var index_mod = "{{index_mod}}";
+    
+    
+
+    function prev(){
+        if (i>0){
+            tbodyEL.innerHTML ="";
+            i-=1;
+            for (let x = 0; x<data[i].length;x++){
+                tbodyEL.innerHTML += '<tr class="tr-shadow" style="text-align:center">\
+                                        <td>'+data[i][x][0]+'</td>\
+                                        <td>'+data[i][x][1]+'</td>\
+                                        <td>'+data[i][x][2]+'</td>\
+                                        <td>'+data[i][x][3]+'</td>\
+                                        <td></td>\
+                                    </tr>';
+            }
+            tbodyEL.innerHTML += "<tr>\
+                    <td></td>\
+                    <td><button class='btn' onclick='prev()'>prev</button></td>\
+                    <td><button class='btn' onclick='next()'>next</button></td>\
+                    <td></td>\
+                    <td></td>\
+                </tr>";
+        }   
+    }
+
+    function next(){
+        if(index_mod!="0"){
+            if (i<data.length-1){
+                tbodyEL.innerHTML ="";
+                i+=1;
+                for (let x = 0; x<data[i].length;x++){
+                    tbodyEL.innerHTML += '<tr class="tr-shadow" style="text-align:center">\
+                                            <td>'+data[i][x][0]+'</td>\
+                                            <td>'+data[i][x][1]+'</td>\
+                                            <td>'+data[i][x][2]+'</td>\
+                                            <td>'+data[i][x][3]+'</td>\
+                                            <td></td>\
+                                        </tr>';
+            }
+            tbodyEL.innerHTML += "<tr>\
+                    <td></td>\
+                    <td><button class='btn' onclick='prev()'>prev</button></td>\
+                    <td><button class='btn' onclick='next()'>next</button></td>\
+                    <td></td>\
+                    <td></td>\
+                </tr>";
+        }
+        }else{
+            if (i<data.length-2){
+                tbodyEL.innerHTML ="";
+                i+=1;
+                for (let x = 0; x<data[i].length;x++){
+                    tbodyEL.innerHTML += '<tr class="tr-shadow" style="text-align:center">\
+                                            <td>'+data[i][x][0]+'</td>\
+                                            <td>'+data[i][x][1]+'</td>\
+                                            <td>'+data[i][x][2]+'</td>\
+                                            <td>'+data[i][x][3]+'</td>\
+                                            <td></td>\
+                                        </tr>';
+            }
+            tbodyEL.innerHTML += "<tr>\
+                    <td></td>\
+                    <td><button class='btn' onclick='prev()'>prev</button></td>\
+                    <td><button class='btn' onclick='next()'>next</button></td>\
+                    <td></td>\
+                    <td></td>\
+                </tr>";
+        }
+        }
+        
+    }
+    
+
+</script>
 
 {% endblock %}
