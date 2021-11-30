@@ -12,6 +12,9 @@
     <!-- Title Page-->
     <title>{% block Title %}{% endblock %}</title>
 
+    <!-- W3school css-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <!-- Fontfaces CSS-->
     <link rel="stylesheet" href="{%static 'css/font-face.css'%}"  media="all">
     <link rel="stylesheet" href="{%static 'vendor/font-awesome-4.7/css/font-awesome.min.css'%}" media="all">
@@ -37,7 +40,7 @@
 <body class="animsition">
     <div class="page-wrapper">
 
-        {% include 'website_base/header.html'%}
+        {% include 'website_base/header.html'%} <!-- Ini nanti buat navbar -->
         {% block content %}{% endblock content %}
         {% include 'website_base/footer.html'%}
 
