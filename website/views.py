@@ -1,3 +1,4 @@
+from json import dumps
 from django.shortcuts import render
 from django.http import HttpResponse
 from db_api.models import Yolo, Yolo_Files, yolo_trial
@@ -5,11 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from datetime import date
 
+from json import dumps
+
 
 
 # Create your views here.
 
-
+# ini kek nya perlu di delete 
 def web1(request):
 
     database = Yolo.objects.all()
@@ -37,8 +40,10 @@ def web1(request):
 
 
     return render(request, 'web1.html',locals())
+###################################
 
-#this is the main homepage
+#   Ini perlu delete 
+# bareng sama template1.html
 @login_required(login_url='login')
 def template1(request):
     user = request.user
@@ -127,8 +132,35 @@ def template2(request):
             this_week_alert +=1
         else:
             pass
+#############################################
+    b=[]
+    alert_list=[]
+    index = 40
+    index_mod = index%10
+    for x in range(index):
+        a=[]
+        a.append("id %s"%x)
+        a.append("title %s"%x)
+        a.append("alert %s"%x)
+        a.append("created_at %s"%x)
+        if len(alert_list)==0 and len(b)==index%10:
+            alert_list.insert(0,b)
+            b=[]
+            b.insert(0,a)
+            a=[]
+        elif len(b)==10:
+            alert_list.insert(0,b)
+            b=[]
+            b.insert(0,a)
+            a=[]
+        else:
+            b.insert(0,a)
+            a=[]
+    if len(b) > 0:
+        alert_list.insert(0,b)
+    data = dumps(alert_list)
 
-
+    
     return render(request,'homepage/index.html',locals())
 
 ##########################################################################################################################
