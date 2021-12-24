@@ -162,6 +162,64 @@ def template2(request):
 
     
     return render(request,'homepage/index.html',locals())
+##########################################################################################################################
+@login_required(login_url='login')
+def template3(request):
+
+    ### Buat mobile alert list ###
+    # Index diganti jadi jumlah count di model yolo
+    a=[]
+    alert_list_mobile=[]
+    index = 46
+    index_mod = index%5
+    for x in range(index):
+        a.insert(0,"id %s"%x)
+        if len(alert_list_mobile)==0 and len(a)==index%5:
+            alert_list_mobile.insert(0,a)
+            a=[]
+        elif len(a)==5:
+            alert_list_mobile.insert(0,a)
+            a=[]
+    if len(a)>0:
+        alert_list_mobile.insert(0,a)
+        a=[]
+    if index_mod == 0:
+        alert_list_mobile.pop()
+
+
+    ### Buat desktop dan alert details ###
+    # index diganti jadi jumlah count di model yolo
+    # data yang di append diambil dari yolo
+    b=[]
+    alert_list=[]
+    index = 46
+    index_mod = index%10
+    for x in range(index):
+        a=[]
+        a.append("id %s"%x)
+        a.append("title %s"%x)
+        a.append("alert %s"%x)
+        a.append("created_at %s"%x)
+        if len(alert_list)==0 and len(b)==index%10:
+            alert_list.insert(0,b)
+            b=[]
+            b.insert(0,a)
+            a=[]
+        elif len(b)==10:
+            alert_list.insert(0,b)
+            b=[]
+            b.insert(0,a)
+            a=[]
+        else:
+            b.insert(0,a)
+            a=[]
+    if len(b) > 0:
+        alert_list.insert(0,b)
+    if index_mod==0:
+        alert_list.pop()
+    alert_list_data_for_java = dumps(alert_list)
+
+    return render(request, 'template_14_12_2021/index.html',locals())
 
 ##########################################################################################################################
 

@@ -1,0 +1,419 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Description">
+    <meta name="author" content="Author">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+	<meta property="og:site_name" content="" /> <!-- website name -->
+	<meta property="og:site" content="" /> <!-- website link -->
+	<meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	<meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	<meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	<meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+
+    <!-- Webpage Title -->
+    <title>Revo</title>
+    
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="{%static 'template_14_12_2021/css/bootstrap.css'%}" rel="stylesheet">
+    <link href="{%static 'template_14_12_2021/css/fontawesome-all.css'%}" rel="stylesheet">
+    <link href="{%static 'template_14_12_2021/css/swiper.css'%}" rel="stylesheet">
+	<link href="{%static 'template_14_12_2021/css/magnific-popup.css'%}" rel="stylesheet">
+	<link href="{%static 'template_14_12_2021/css/styles.css'%}" rel="stylesheet">
+	
+	<!-- Favicon  -->
+    <link rel="icon" href="{%static 'template_14_12_2021/images/favicon.png'%}">
+</head>
+<body data-spy="scroll" data-target=".fixed-top">
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+        <div class="container">
+            
+            <!-- Text Logo - Use this if you don't have a graphic logo -->
+            <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Revo</a> -->
+
+            <!-- Image Logo -->
+            <a class="navbar-brand logo-image" href="index.html"><img src="images/logo.svg" alt="alternative"></a>
+            <!-- kek nya ada yang salah --> 
+
+            <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#header">HOME <span class="sr-only">(current)</span></a>
+                    </li>
+                    <div class="alert-list-desktop">
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="#alert-list-desktop">ALERT LIST</a>
+                        </li>
+                    </div>
+                    <div class="alert-list-mobile">
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="#alert-list-mobile">ALERT LIST</a>
+                        </li>
+                    </div>
+
+                </ul>
+                
+            </div> <!-- end of navbar-collapse -->
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+
+
+    <!-- Header -->
+    <header id="header" class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <!-- Text Slider -->
+                    <div class="slider-container">
+                        <div class="swiper-container text-slider">
+                            <div class="swiper-wrapper">
+                                
+                                <!-- Slide -->
+                                <div class="swiper-slide">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="image-container">
+                                                <img class="img-fluid" src="{%static 'template_14_12_2021/images/header-slide-1.jpg'%}" alt="alternative">
+                                            </div> <!-- end of image-container -->
+                                        </div> <!-- end of col -->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="text-container">
+                                                <h1 class="h1-large">Desktop App Landing Page</h1>
+                                                <p class="p-large">The first desktop app for web designers. Create beautiful websites with minimum HTML/CSS</p>
+                                                <a class="btn-solid-lg page-scroll" href="#registration">FREE TRIAL</a>
+                                                <a class="btn-outline-lg page-scroll" href="#features">DISCOVER</a>
+                                            </div> <!-- end of text-container -->
+                                        </div> <!-- end of col -->
+                                    </div> <!-- end of row -->
+
+                                </div> <!-- end of swiper-slide -->
+                                <!-- end of slide -->
+
+                                <!-- Slide -->
+                                <div class="swiper-slide">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="image-container">
+                                                <img class="img-fluid" src="{%static 'template_14_12_2021/images/header-slide-2.jpg'%}" alt="alternative">
+                                            </div> <!-- end of image-container -->
+                                        </div> <!-- end of col -->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="text-container">
+                                                <h1 class="h1-large">Web Design Desktop App</h1>
+                                                <p class="p-large">Sketch your layout, mockup the prototye and create the actual design using Revo web design app</p>
+                                                <a class="btn-solid-lg page-scroll" href="#registration">FREE TRIAL</a>
+                                                <a class="btn-outline-lg page-scroll" href="#features">DISCOVER</a>
+                                            </div> <!-- end of text-container -->
+                                        </div> <!-- end of col -->
+                                    </div> <!-- end of row -->
+                                    
+                                </div> <!-- end of swiper-slide -->
+                                <!-- end of slide -->
+
+                                <!-- Slide -->
+                                <div class="swiper-slide">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="image-container">
+                                                <img class="img-fluid" src="{%static 'template_14_12_2021/images/header-slide-2.jpg'%}" alt="alternative">
+                                            </div> <!-- end of image-container -->
+                                        </div> <!-- end of col -->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="text-container">
+                                                <h1 class="h1-large">Camera On This Spot</h1>
+                                                <p class="p-large">With Revo it's a breeze to turn your designs intro code. Use the visual builder and export as HTML</p>
+                                                <!--<a class="btn-solid-lg page-scroll" href="#registration">FREE TRIAL</a>
+                                                <a class="btn-outline-lg page-scroll" href="#features">DISCOVER</a>-->
+                                            </div> <!-- end of text-container -->
+                                        </div> <!-- end of col -->
+                                    </div> <!-- end of row -->
+                                    
+                                </div> <!-- end of swiper-slide -->
+                                <!-- end of slide -->
+
+                            </div> <!-- end of swiper-wrapper -->
+                            
+                            <!-- Add Arrows -->
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                            <!-- end of add arrows -->
+
+                        </div> <!-- end of swiper-container -->
+                    </div> <!-- end of slider-container -->
+                    <!-- end of text slider -->
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header> <!-- end of header -->
+    <!-- end of header -->
+
+
+    <!-- Alert-list-desktop -->
+    <div id="alert-list-desktop" class="alert-list-desktop">
+        <div id="alert-list" class="alert-list">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+ 
+                        <ul class="responsive-table">
+                            <li class="table-header">
+                                <div class="alert-col alert-col-1">Job Id</div>
+                                <div class="alert-col alert-col-2">Customer Name</div>
+                                <div class="alert-col alert-col-3">Amount Due</div>
+                                <div class="alert-col alert-col-4">Payment Status</div>
+                                <div class="alert-col alert-col-5"></div>
+                            </li>
+                        </ul>
+                       
+                        <!-- Text Slider -->
+                        <div class="slider-container">
+                            <div class="swiper-container alert-slider">
+                                <div class="swiper-wrapper">
+
+
+                                    {% for x in alert_list %}
+                                        <div class="swiper-slide">
+                                            <ul class="responsive-table">
+                                            {%for y in x %}
+                                                <li class="table-row">
+                                                    <div class="alert-col alert-col-1" data-label="Job Id">{{y.0}}</div>
+                                                    <div class="alert-col alert-col-2" data-label="Customer Name">{{y.1}}</div>
+                                                    <div class="alert-col alert-col-3" data-label="Amount Due">{{y.2}}</div>
+                                                    <div class="alert-col alert-col-4" data-label="Payment Status">{{y.3}}</div>
+                                                    <div class="alert-col-5"><a class="btn-solid-reg popup-with-move-anim" onclick="alert_details_lightbox('{{y.0}}')" href="#alert-details-lightbox">DETAILS</a></div>
+                                                </li>
+                                            {%endfor%}
+                                            </ul>  <!-- end of swiper-slide -->
+                                        </div> <!-- end of slide -->
+                                    {%endfor%}
+                                    
+
+                                        
+ 
+                                </div> <!-- end of swiper-wrapper -->
+                               
+                                <!-- Add Arrows -->
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <!-- end of add arrows -->
+ 
+                            </div> <!-- end of swiper-container -->
+                        </div> <!-- end of slider-container -->
+                        <!-- end of text slider -->
+ 
+                    </div> <!-- end of col -->
+                </div> <!-- end of row -->
+ 
+               
+ 
+            </div> <!-- end of container -->
+        </div> <!-- end of alert-list -->  
+    </div><!-- end of alert-list-desktop -->
+ 
+
+    <!-- Alert-list-mobile -->
+    <div id="alert-list-mobile" class="alert-list-mobile">
+        <div id="alert-list" class="alert-list">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+ 
+                        <!-- Text Slider -->
+                        <div class="slider-container">
+                            <div class="swiper-container alert-slider">
+                                <div class="swiper-wrapper">
+
+                                    {% for x in alert_list_mobile %}
+                                    <div class="swiper-slide">
+                                        <ul class="responsive-table">
+                                        {% for y in x %}
+                                            <li class="table-row">
+                                                <div class="alert-col alert-col-1" data-label="Alert Id">{{y}}</div>
+                                                <div class="alert-col-5"><a class="btn-solid-reg popup-with-move-anim" onclick="alert_details_lightbox('{{y}}')" href="#alert-details-lightbox">DETAILS</a></div>
+                                            </li>
+                                        {%endfor%}
+                                        </ul>  <!-- end of swiper-slide -->
+                                    </div>  <!-- end of slide -->
+                                    {%endfor%}
+
+                                </div> <!-- end of swiper-wrapper -->
+                               
+                                <!-- Add Arrows -->
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                                <!-- end of add arrows -->
+ 
+                            </div> <!-- end of swiper-container -->
+                        </div> <!-- end of slider-container -->
+                        <!-- end of text slider -->
+ 
+                    </div> <!-- end of col -->
+                </div> <!-- end of row -->
+ 
+               
+ 
+            </div> <!-- end of container -->
+        </div> <!-- end of alert-list -->  
+    </div><!-- end of alert-list-mobile -->
+ 
+ 
+    <!-- Alert details lightbox -->
+    <div id="alert-details-lightbox" class="alert-lightbox-basic zoom-anim-dialog mfp-hide">
+        <div class="row">
+            <button title="Close (Esc)" type="button" class="mfp-close x-button">×</button>
+            <div id="alert_details_img" class="col-lg-8">
+                <div class="image-container">
+                    <img class="img-fluid" src="{%static 'template_14_12_2021/images/details-lightbox.jpg'%}" alt="alternative">
+                </div> <!-- end of image-container -->
+            </div> <!-- end of col -->
+            <div id="alert_details_description" class="col-lg-4">
+                <h3>Id number</h3>
+                <hr>
+                <ul class="list-unstyled li-space-lg">
+                    <li class="media">
+                        <i class="fas fa-square"></i><div class="media-body">Alert type</div>
+                    </li>
+                    <li class="media">
+                        <i class="fas fa-square"></i><div class="media-body">Created on</div>
+                    </li>
+                    <li class="media">
+                        <i class="fas fa-square"></i><div class="media-body">Created on</div>
+                    </li>
+                </ul>
+                <button class="btn-outline-reg mfp-close as-button" type="button">BACK</button>
+            </div>
+        </div>
+    </div>
+    <!-- end of alert details lightbox -->
+
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-col first">
+                        <h6>About Revo</h6>
+                        <p class="p-small">Revo is a desktop app website Bootstrap HTML template created for desktop applications, to present their features and control panel options</p>
+                    </div> <!-- end of footer-col -->
+                    <div class="footer-col second">
+                        <h6>Links</h6>
+                        <ul class="list-unstyled li-space-lg p-small">
+                            <li>Important: <a href="terms.html">Terms & Conditions</a>, <a href="privacy.html">Privacy Policy</a></li>
+                            <li>Useful: <a href="#">Colorpicker</a>, <a href="#">Icon Library</a>, <a href="#">Illustrations</a></li>
+                            <li>Menu: <a class="page-scroll" href="#header">Home</a>, <a class="page-scroll" href="#registration">Trial</a>, <a class="page-scroll" href="#features">Features</a>, <a class="page-scroll" href="#details">Details</a></li>
+                        </ul>
+                    </div> <!-- end of footer-col -->
+                    <div class="footer-col third">
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-pinterest-p fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <p class="p-small">We would love to hear from you <a href="mailto:contact@website.com"><strong>contact@website.com</strong></a></p>
+                    </div> <!-- end of footer-col -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of footer -->  
+    <!-- end of footer -->
+
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="p-small">Copyright © <a href="#your-link">Name</a></p>
+                </div> <!-- end of col -->
+            </div> <!-- enf of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of copyright --> 
+    <!-- end of copyright -->
+    
+    	
+    <!-- Scripts -->
+    <script>
+        const alert_details_img=document.getElementById("alert_details_img");
+        const alert_details_description = document.getElementById("alert_details_description");
+        alert_list_data_for_java = JSON.parse("{{alert_list_data_for_java|escapejs}}");
+
+        function alert_details_lightbox(id){
+            alert_details_description.innerHTML = "";
+            for (let x in alert_list_data_for_java){
+                for (let y in alert_list_data_for_java[x]){
+                    if (alert_list_data_for_java[x][y][0]==id){
+
+                        alert_details_description.innerHTML += '<h3>'+alert_list_data_for_java[x][y][0]+'</h3>\
+                        <hr>\
+                        <ul class="list-unstyled li-space-lg">\
+                            <li class="media">\
+                                <i class="fas fa-square"></i><div class="media-body">'+alert_list_data_for_java[x][y][1]+'</div>\
+                            </li>\
+                            <li class="media">\
+                                <i class="fas fa-square"></i><div class="media-body">'+alert_list_data_for_java[x][y][2]+'</div>\
+                            </li>\
+                            <li class="media">\
+                                <i class="fas fa-square"></i><div class="media-body">'+alert_list_data_for_java[x][y][3]+'</div>\
+                            </li>\
+                        </ul>\
+                        <button class="btn-outline-reg mfp-close as-button" type="button">BACK</button>';
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="{%static 'template_14_12_2021/js/jquery.min.js'%}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+    <script src="{%static 'template_14_12_2021/js/bootstrap.min.js'%}"></script> <!-- Bootstrap framework -->
+    <script src="{%static 'template_14_12_2021/js/jquery.easing.min.js'%}"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
+    <script src="{%static 'template_14_12_2021/js/swiper.min.js'%}"></script> <!-- Swiper for image and text sliders -->
+    <script src="{%static 'template_14_12_2021/js/jquery.magnific-popup.js'%}"></script> <!-- Magnific Popup for lightboxes -->
+    <script src="{%static 'template_14_12_2021/js/scripts.js'%}"></script> <!-- Custom scripts -->
+</body>
+</html>
