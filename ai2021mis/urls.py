@@ -44,7 +44,7 @@ router.register('picture-files',PictureFilesView)
 # router.register('yolo-post', YoloPostView, basename='yolo-post')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include('website.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

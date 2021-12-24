@@ -74,8 +74,6 @@
  
     /* TESTING Alert Slider - Swiper */
     var alertSlider = new Swiper('.alert-slider', {
-       
-       
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev'

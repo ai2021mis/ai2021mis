@@ -27,7 +27,7 @@
     <link href="{%static 'template_14_12_2021/css/fontawesome-all.css'%}" rel="stylesheet">
     <link href="{%static 'template_14_12_2021/css/swiper.css'%}" rel="stylesheet">
 	<link href="{%static 'template_14_12_2021/css/magnific-popup.css'%}" rel="stylesheet">
-	<link href="{%static 'template_14_12_2021/css/styles.css'%}" rel="stylesheet">
+	<link href="{%static 'template_14_12_2021/css/styles1.css'%}" rel="stylesheet">
 	
 	<!-- Favicon  -->
     <link rel="icon" href="{%static 'template_14_12_2021/images/favicon.png'%}">
@@ -42,7 +42,7 @@
             <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Revo</a> -->
 
             <!-- Image Logo -->
-            <a class="navbar-brand logo-image" href="index.html"><img src="{%static 'template_14_12_2021/images/logo.svg'%}" alt="alternative"></a>
+            <a class="navbar-brand logo-image" href="{% url 'home' %}"><img src="{%static 'template_14_12_2021/images/logo.svg'%}" alt="alternative"></a>
 
             <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
                 <span class="navbar-toggler-icon"></span>
@@ -180,33 +180,34 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
- 
                         <ul class="responsive-table">
                             <li class="table-header">
-                                <div class="alert-col alert-col-1">Job Id</div>
-                                <div class="alert-col alert-col-2">Customer Name</div>
-                                <div class="alert-col alert-col-3">Amount Due</div>
-                                <div class="alert-col alert-col-4">Payment Status</div>
+                                <div class="alert-col alert-col-1">Id</div>
+                                <div class="alert-col alert-col-2">Title</div>
+                                <div class="alert-col alert-col-3">Status</div>
+                                <div class="alert-col alert-col-4">Created</div>
                                 <div class="alert-col alert-col-5"></div>
                             </li>
                         </ul>
+                        
                        
                         <!-- Text Slider -->
                         <div class="slider-container">
                             <div class="swiper-container alert-slider">
                                 <div class="swiper-wrapper">
 
+                                    
 
-                                    {% for x in alert_list %}
+                                    {% for x in yolo_alert_list_desktop %}
                                         <div class="swiper-slide">
                                             <ul class="responsive-table">
                                             {%for y in x %}
                                                 <li class="table-row">
-                                                    <div class="alert-col alert-col-1" data-label="Job Id">{{y.0}}</div>
-                                                    <div class="alert-col alert-col-2" data-label="Customer Name">{{y.1}}</div>
-                                                    <div class="alert-col alert-col-3" data-label="Amount Due">{{y.2}}</div>
-                                                    <div class="alert-col alert-col-4" data-label="Payment Status">{{y.3}}</div>
-                                                    <div class="alert-col-5"><a class="btn-solid-reg popup-with-move-anim" onclick="alert_details_lightbox('{{y.0}}')" href="#alert-details-lightbox">DETAILS</a></div>
+                                                    <div class="alert-col-1">{{y.0}}</div>
+                                                    <div class="alert-col-2">{{y.1}}</div>
+                                                    <div class="alert-col-3">{{y.2}}</div>
+                                                    <div class="alert-col-4">{{y.3}}</div>
+                                                    <div class="alert-col-5"><a class="btn-solid-reg popup-with-move-anim" onclick="alert_details_lightbox('{{y.0}}')" href="#alert-details-lightbox">細節</a></div>
                                                 </li>
                                             {%endfor%}
                                             </ul>  <!-- end of swiper-slide -->

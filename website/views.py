@@ -166,6 +166,47 @@ def template2(request):
 @login_required(login_url='login')
 def template3(request):
 
+    yolo_data = Yolo.objects.all()
+    total_yolo_data = Yolo.objects.all().count()
+    index_mod = total_yolo_data%10
+    b=[]
+    yolo_alert_list_desktop =[]
+    alert_choice = [
+        '無危險行為',
+        '未正確配戴安全帽',
+        '雙掛鉤未使用',
+        '偵測到無安全網',
+        '未知',
+        ]
+
+    for x in yolo_data:
+        a=[]
+        a.append(x.id)
+        a.append(x.title)
+        a.append(alert_choice[x.alert])
+        a.append(x.created_at.strftime('%Y-%m-%d (%H:%M)'))
+
+        if len(yolo_alert_list_desktop)==0 and len(b)==index_mod:
+            yolo_alert_list_desktop.insert(0,b)
+            b=[]
+            b.insert(0,a)
+            a=[]
+        elif len(b)==10:
+            yolo_alert_list_desktop.insert(0,b)
+            b=[]
+            b.insert(0,a)
+            a=[]
+        else:
+            b.insert(0,a)
+            a=[]
+    if len(b) > 0:
+        yolo_alert_list_desktop.insert(0,b)
+    if index_mod == 0:
+        yolo_alert_list_desktop.pop()
+    alert_list_data_for_java = dumps(yolo_alert_list_desktop)
+    
+    
+
     ### Buat mobile alert list ###
     # Index diganti jadi jumlah count di model yolo
     a=[]
@@ -217,7 +258,7 @@ def template3(request):
         alert_list.insert(0,b)
     if index_mod==0:
         alert_list.pop()
-    alert_list_data_for_java = dumps(alert_list)
+    #alert_list_data_for_java = dumps(alert_list)
 
     return render(request, 'template_14_12_2021/index.html',locals())
 
