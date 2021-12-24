@@ -46,11 +46,11 @@ body, p {
 }
  
 body{
-    /*background-image: url("{%static 'template_14_12_2021/images/main_background'%}");
+    background-image: url('../images/main_background.jpg');
 	background-position: center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-    background-size: cover;*/
+    background-size: cover;
     background-color: rgb(199, 197, 197);
 }
  

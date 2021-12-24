@@ -11,7 +11,7 @@ from website.views import ShowAlertMsgById,template2, template3
 # router.register('yolo-post', YoloPostView, basename='yolo-post')
 
 urlpatterns = [
-    path('', template2),
+    path('', template3),
     path('second_gen', template2, name = 'homepage'),
     path('third_gen', template3, name = 'template_14_12_2021(homepage)'),
     path('detail/<str:id>/', ShowAlertMsgById, name='yolo-info'),
