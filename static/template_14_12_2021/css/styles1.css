@@ -747,7 +747,7 @@ input[type='checkbox'] {
 }
  
 .alert-list .table-row {
-    background-color: #ffffff5d;
+    background-color: #ff00005d;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.507);
     color: white;
     font-size: 1.05rem;
@@ -855,29 +855,24 @@ input[type='checkbox'] {
     text-decoration: none;
 }
  
-.alert-table .container .responsive-table .table-row .alert-col-1,
-.alert-table .container .responsive-table .table-header .alert-col-1 {
+.alert-table .alert-col-1 {
     flex-basis: 10%;
 }
-.alert-table .container .responsive-table .table-row .alert-col-2,
-.alert-table .container .responsive-table .table-header .alert-col-2 {
+.alert-table .alert-col-2 {
     flex-basis: 35%;
 }
-.alert-table .container .responsive-table .table-row .alert-col-3,
-.alert-table .container .responsive-table .table-header .alert-col-3 {
+.alert-table .alert-col-3 {
     flex-basis: 20%;
 }
-.alert-table .container .responsive-table .table-row .alert-col-4,
-.alert-table .container .responsive-table .table-header .alert-col-4 {
+.alert-table .alert-col-4 {
     flex-basis: 20%;
 }
  
-.alert-table .container .responsive-table .table-row .alert-col-5,
-.alert-table .container .responsive-table .table-header .alert-col-5 {
+.alert-table .alert-col-5 {
     flex-basis: 15%;
 }
  
-/* belum bisa di pake */
+
 .alert-table .slider-container {
     position: relative;
 }

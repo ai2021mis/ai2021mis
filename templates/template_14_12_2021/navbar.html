@@ -1,0 +1,130 @@
+{% load static %}
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+    <div class="container">
+        
+        <!-- Text Logo - Use this if you don't have a graphic logo -->
+        <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Revo</a> -->
+
+        <!-- Image Logo -->
+        <a class="navbar-brand logo-image" href="{% url 'home' %}"><img src="{%static 'template_14_12_2021/images/logo.svg'%}" alt="alternative"></a>
+
+        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link page-scroll" href="#header">HOME <span class="sr-only">(current)</span></a>
+                </li>
+                <div class="alert-list-desktop">
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#alert-list-desktop">ALERT LIST</a>
+                    </li>
+                </div>
+                <div class="alert-list-mobile">
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#alert-list-mobile">ALERT LIST</a>
+                    </li>
+                </div>
+
+
+
+                <li class="nav-item">
+                    <div class="account-item account-item--style2">
+                            <div class="image">
+                                <img src="https://photocdn.sohu.com/kis/fengmian/1038/1038629/1038629_ver_big.jpg" alt={{ username }} /> 
+                            </div>  
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle username" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                        <div class="account-item account-item--style2">
+                            <div class="username"> test nama panjang {{username}}</div>
+                        </div>          
+                        
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <div class="info ">
+                            <div class="image">
+                                <img src="https://photocdn.sohu.com/kis/fengmian/1038/1038629/1038629_ver_big.jpg" alt={{ username }} />
+                            </div>
+                            <div class="content">
+                                <h3 class="name">
+                                    {{ username }}</br>
+                                    <span class="email">XXX台中A1工地負責人</span>
+                                </h3>
+                                
+                            </div>
+                        </div>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item page-scroll" href= {% url 'my_profile' %}> <i class="far fa-address-card"></i> 負責人資料</a>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item page-scroll" href={% url 'logout'%}> <i class="fas fa-sign-out-alt"></i> 登出  </a>
+
+                        <div class="dropdown-divider"></div>  
+                    </div>
+                    
+                    
+                    
+                </li>
+
+                
+                <!--
+                <li class="nav-item">
+                    <div class="account-wrap">
+                        <div class="account-item account-item--style2 clearfix js-item-menu">
+                            <div class="image">
+                                <img src="https://photocdn.sohu.com/kis/fengmian/1038/1038629/1038629_ver_big.jpg" alt={{ username }} />
+                            </div>
+                            <div class="content">
+                                <a class="js-acc-btn" href="#" style="color:#FFFFFF">{{ username }}</a>
+                            </div>
+                            <div class="account-dropdown js-dropdown">
+                                <div class="info clearfix">
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="https://photocdn.sohu.com/kis/fengmian/1038/1038629/1038629_ver_big.jpg" alt={{ username }} />
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <h3 class="name">
+                                            <a href="#">{{ username }}</a>
+                                        </h3>
+                                        <span class="email">XXX台中A1工地負責人</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="account-dropdown__body">
+                                    <div class="account-dropdown__item">
+                                        <a href= {% url 'my_profile' %}>
+                                            <i class="zmdi zmdi-account"></i>負責人資料</a>
+                                    </div>
+                                    <div class="account-dropdown__item">
+                                        <a href="#">
+                                            <i class="zmdi zmdi-settings"></i>帳戶設定</a>
+                                    </div>
+                                </div>
+                                <div class="account-dropdown__footer">
+                                    <a href={% url 'logout'%}>
+                                        <i class="zmdi zmdi-power"></i>登出</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>-->
+             
+
+            </ul>
+            
+        </div> <!-- end of navbar-collapse -->
+    </div> <!-- end of container -->
+</nav> <!-- end of navbar -->
+<!-- end of navigation -->

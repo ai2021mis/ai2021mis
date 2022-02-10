@@ -1,0 +1,154 @@
+{% extends 'template4/base.html' %}
+{% load static %}
+{% block title %} Security Camera Alert {% endblock %}
+
+{% block content %}
+<!-- PAGE CONTAINER-->
+<div class="page-container2">
+
+    <!-- STATISTIC-->
+    <section class="statistic">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="statistic__item">
+                            <h2 class="number">596</h2>
+                            <span class="desc">type 1 alert </span>
+                            <div class="icon">
+                                <i class="zmdi zmdi-account-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="statistic__item">
+                            <h2 class="number">222</h2>
+                            <span class="desc">type 2 alert</span>
+                            <div class="icon">
+                                <i class="zmdi zmdi-shopping-cart"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="statistic__item">
+                            <h2 class="number">176</h2>
+                            <span class="desc">type 3 alert</span>
+                            <div class="icon">
+                                <i class="zmdi zmdi-calendar-note"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="statistic__item">
+                            <h2 class="number">321</h2>
+                            <span class="desc">type 4 alert</span>
+                            <div class="icon">
+                                <i class="zmdi zmdi-money"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END STATISTIC-->
+
+    <!-- Table -->
+    <section>
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-height table-responsive table--no-card table-data m-b-30">
+                            <table class="table table-borderless table-striped table-earning">
+                                <thead>
+                                    <tr>
+                                        <th>Created Date</th>
+                                        <th>ID</th>
+                                        <th class="text-right">Title</th>
+                                        <th class="text-right">Status</th>
+                                        <th class="text-right">Details</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for x in tableA %}
+                                            <tr>
+                                                <td>{{x.0}}</td>
+                                                <td>{{x.1}}</td>
+                                                <td id="testing" class="text-right">{{x.2}}</td>
+                                                <td class="text-right">{{x.3}}</td>
+                                                <td class="text-right">
+                                                    <button type="button" class="btn btn-secondary mb-1" onclick="details_desc('{{x.1}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
+                                                        Details
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- End of Table -->
+
+
+    
+    <!-- modal scroll details-->
+    <div class="modal fade" id="scrollmodaldetails" tabindex="-1" role="dialog" aria-labelledby="scrollmodaldetails" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scrollmodalLabel">Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="detailsdescription" class="card">
+                        <!-- details desc content placed -->
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- end modal scroll -->
+
+</div>
+
+<!-- Scripts -->
+<script>
+    const details_id=document.getElementById("detailsdescription");
+    yolodata = JSON.parse("{{datafor_js|escapejs}}");
+
+    function details_desc(id){
+        details_id.innerHTML = '';
+        for (let x in yolodata){
+            if (yolodata[x][1]==id && yolodata[x][3] !='無危險行為'){
+                details_id.innerHTML += '<img class="card-img-top" src='+yolodata[x][4]+'>\
+                    <div class="card-body">\
+                    <h4 class="card-title mb-3">'+ yolodata[x][1]+'</h4>\
+                    <p class="card-text">'+ yolodata[x][0]+'</p>\
+                    <p class="card-text">'+ yolodata[x][2]+'</p>\
+                    <p class="card-text">'+ yolodata[x][3]+'</p>\
+                    </div>';
+            }
+            else if(yolodata[x][1]==id){
+                details_id.innerHTML += '<div class="card-body">\
+                    <h4 class="card-title mb-3">'+ yolodata[x][1]+'</h4>\
+                    <p class="card-text">'+ yolodata[x][0]+'</p>\
+                    <p class="card-text">'+ yolodata[x][2]+'</p>\
+                    <p class="card-text">'+ yolodata[x][3]+'</p>\
+                    </div>';
+            }
+        }
+    }
+</script>
+{% endblock %}

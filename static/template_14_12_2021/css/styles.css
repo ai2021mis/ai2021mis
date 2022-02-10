@@ -46,7 +46,11 @@ body, p {
 }
 
 body{
-    background-image: url('../images/main_background.jpg');
+    background-image: url('../images/neon_wallpaper.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 	
 }
 
@@ -736,34 +740,36 @@ input[type='checkbox'] {
     background-color: rgb(90, 93, 94);
     font-size: 1.2rem;
     font-weight: 400;
+    text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.03em;
     color: white;
 }
  
 .alert-list .table-row {
-    background-color: #ffffffd7;
+    background-color: #ff00005d;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.507);
-    color: black;
-    font-size: 1rem;
+    color: white;
+    font-size: 1.05rem;
     font-weight: 600;
+    backdrop-filter: blur(10px);
 }
 .alert-list .table-row .btn-solid-reg {
     display: inline-block;
     padding: 1.1rem 2rem 1.1rem 2rem;
-    border: 1px solid #394c4e;
+    border: 1px solid rgb(46, 44, 44);
     border-radius: 32px;
-    background-color: #394c4e;
+    background-color: rgb(46, 44, 44);
     color: #ffffff;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 1rem;
     line-height: 0;
     text-decoration: none;
     transition: all 0.2s;
 }
 .alert-list .table-row .btn-solid-reg:hover {
     background-color: transparent;
-    color: #394c4e; /* needs to stay here because of the color property of a tag */
+    color: rgb(46, 44, 44); /* needs to stay here because of the color property of a tag */
     text-decoration: none;
 }
  
@@ -771,13 +777,14 @@ input[type='checkbox'] {
     flex-basis: 10%;
 }
 .alert-list .alert-col-2 {
-    flex-basis: 35%;
+    flex-basis: 25%;
 }
 .alert-list .alert-col-3{
     flex-basis: 20%;
 }
 .alert-list .alert-col-4 {
-    flex-basis: 20%;
+    text-align: center;
+    flex-basis: 30%;
 }
 .alert-list .alert-col-5{
     flex-basis: 15%;
@@ -848,29 +855,24 @@ input[type='checkbox'] {
     text-decoration: none;
 }
  
-.alert-table .container .responsive-table .table-row .alert-col-1,
-.alert-table .container .responsive-table .table-header .alert-col-1 {
+.alert-table .alert-col-1 {
     flex-basis: 10%;
 }
-.alert-table .container .responsive-table .table-row .alert-col-2,
-.alert-table .container .responsive-table .table-header .alert-col-2 {
+.alert-table .alert-col-2 {
     flex-basis: 35%;
 }
-.alert-table .container .responsive-table .table-row .alert-col-3,
-.alert-table .container .responsive-table .table-header .alert-col-3 {
+.alert-table .alert-col-3 {
     flex-basis: 20%;
 }
-.alert-table .container .responsive-table .table-row .alert-col-4,
-.alert-table .container .responsive-table .table-header .alert-col-4 {
+.alert-table .alert-col-4 {
     flex-basis: 20%;
 }
  
-.alert-table .container .responsive-table .table-row .alert-col-5,
-.alert-table .container .responsive-table .table-header .alert-col-5 {
+.alert-table .alert-col-5 {
     flex-basis: 15%;
 }
  
-/* belum bisa di pake */
+
 .alert-table .slider-container {
     position: relative;
 }

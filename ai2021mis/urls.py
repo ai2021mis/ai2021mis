@@ -52,7 +52,7 @@ urlpatterns = [
     url(r'^website/', include('website.urls')),
     url(r'^user/', include('employee.urls')),
     # path('accounts/', include('allauth.urls')),
-   # path('login/', LoginPage),
+    # path('login/', LoginPage),
     path('login/', LoginPage, name='login'),
     path('logout/', LogOutPage, name='logout'),
     path('test/', test),

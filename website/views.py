@@ -1,18 +1,85 @@
 from json import dumps
-from django.shortcuts import render
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.http import HttpResponse
 from db_api.models import Yolo, Yolo_Files, yolo_trial
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from datetime import date
-
 from json import dumps
 
+# For profile (username)
+from employee.models import employee, generate_password
+from employee.forms import ProfileForm, ProfileFormtemplate4
+from django.contrib import messages
 
 
-# Create your views here.
 
-# ini kek nya perlu di delete 
+@login_required(login_url='login')
+def template4(request):
+
+    #profile
+    user = request.user
+    username = user.username
+    user_profile = employee.objects.get(user=user)
+
+    if request.method == 'POST':
+        profile_form = ProfileFormtemplate4(request.POST, instance=user_profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, '資料更新成功')
+        else:
+            messages.warning(request, '請檢查每個欄位是否都有正確填寫')
+    else:
+        profile_form = ProfileFormtemplate4(instance=user_profile)
+    
+    if user_profile.lineid == employee._meta.get_field(field_name='lineid').get_default():
+        new_password = user_profile.password
+
+    # yolo database (alerts)
+    yolodata = Yolo.objects.all()
+    alert_choice = [
+        '無危險行為',
+        '未正確配戴安全帽',
+        '雙掛鉤未使用',
+        '偵測到無安全網',
+        '未知',
+        ]
+    tableA =[]
+    for x in yolodata:
+        tableB = []
+        tableB.append(x.created_at.strftime('%Y年 %m月 %d日 (%H:%M)'))
+        tableB.append(x.id)
+        tableB.append(x.title)
+        tableB.append(alert_choice[x.alert])
+        if Yolo_Files.objects.filter(pk=x.id).exists():
+            objyolofiles = Yolo_Files.objects.get(pk=x.id)
+            if objyolofiles.image != '':
+                url = str(objyolofiles.image.url)
+                tableB.append(url)
+            else:
+                url = '/static/template4/images/image-not-found.png'
+                tableB.append(url)
+        tableA.insert(0,tableB)
+    datafor_js = dumps(tableA)
+
+    return render(request,"template4/index.html", locals())
+
+@login_required
+def lineid_change(request):
+    new_password = generate_password()
+    user = request.user
+    username = user.username
+    user_profile = employee.objects.get(user=user)
+
+    user_profile.password = new_password
+    user_profile.lineid = employee._meta.get_field(field_name='lineid').get_default()
+    user_profile.line_username = employee._meta.get_field(field_name='line_username').get_default()
+    user_profile.save()
+
+    return redirect('template4')
+
+
+###################################
 def web1(request):
 
     database = Yolo.objects.all()
@@ -166,6 +233,11 @@ def template2(request):
 @login_required(login_url='login')
 def template3(request):
 
+    # For profile
+    user = request.user
+    username = user.username
+
+    #For Alert data
     yolo_data = Yolo.objects.all()
     total_yolo_data = Yolo.objects.all().count()
     index_mod = total_yolo_data%10
@@ -178,13 +250,12 @@ def template3(request):
         '偵測到無安全網',
         '未知',
         ]
-
     for x in yolo_data:
         a=[]
         a.append(x.id)
         a.append(x.title)
         a.append(alert_choice[x.alert])
-        a.append(x.created_at.strftime('%Y-%m-%d (%H:%M)'))
+        a.append(x.created_at.strftime('%Y年 %m月 %d日 (%H:%M)'))
 
         if len(yolo_alert_list_desktop)==0 and len(b)==index_mod:
             yolo_alert_list_desktop.insert(0,b)
@@ -280,7 +351,7 @@ def ShowAlertMsgById(request, id='none'):
         if Yolo_Files.objects.filter(pk=obj_yolo.pk).exists():
             obj_yolofiles = Yolo_Files.objects.get(pk=obj_yolo.pk)
             if obj_yolofiles.image != "":
-                url = website_host + str(obj_yolofiles.image.url)
+                url = str(obj_yolofiles.image.url)
             else:
                 url = ''
         else:
