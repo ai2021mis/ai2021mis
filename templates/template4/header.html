@@ -49,7 +49,7 @@
         <div class="header-mobile__bar">
             <div class="container-fluid">
                 <div class="header-mobile-inner">
-                    <a class="logo" href="index.html">
+                    <a class="logo" href="{% url 'home' %}">
                         <img src="{%static 'template4/images/icon/logo.png'%}" alt="CoolAdmin" />
                     </a>
                     <button class="hamburger hamburger--slider" type="button">
@@ -233,7 +233,7 @@
                             <h4 class="text-center">或</h4>
                             <br>
                             <div class="col-6 offset-lg-4 offset-md-3 mx-auto">
-                                <a class="btn btn-outline-primary btn-lg d-block" href="https://line.me/R/oaMessage/{{line_channel_id}}/@{{ user_profile.gongHao }}@{{ new_password }}" role="button">點這裡更換Line ID</a>
+                                <a class="btn btn-outline-primary d-block" href="https://line.me/R/oaMessage/{{line_channel_id}}/@{{ user_profile.gongHao }}@{{ new_password }}" role="button">點這裡更換Line ID</a>
                             </div>
                             {% else %}
                             <h3 class="text-center">現在的Line ID： {{ user_profile.line_username }}</h3>

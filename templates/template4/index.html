@@ -1,6 +1,6 @@
 {% extends 'template4/base.html' %}
 {% load static %}
-{% block title %} Security Camera Alert {% endblock %}
+{% block title %} Homepage {% endblock %}
 
 {% block content %}
 <!-- PAGE CONTAINER-->
@@ -60,7 +60,7 @@
                 
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="table-height table-responsive table--no-card table-data m-b-30">
+                        <div class="table-responsive table--no-card table-data m-b-30">
                             <table class="table table-borderless table-striped table-earning">
                                 <thead>
                                     <tr>
@@ -73,19 +73,37 @@
                                 </thead>
 
                                 <tbody>
-                                    {% for x in tableA %}
-                                            <tr>
-                                                <td>{{x.0}}</td>
-                                                <td>{{x.1}}</td>
-                                                <td id="testing" class="text-right">{{x.2}}</td>
-                                                <td class="text-right">{{x.3}}</td>
-                                                <td class="text-right">
-                                                    <button type="button" class="btn btn-secondary mb-1" onclick="details_desc('{{x.1}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
+                                    {% for x in yolodata %}
+                                        <tr>
+                                            <td>{{x.created_at|date:"Y年 m月 d日 "}} {{x.created_at|time:"(H:i)"}}</td>
+                                            <td>{{x.id}}</td>
+                                            <td id="testing" class="text-right">{{x.title}}</td>
+                                            <td class="text-right">{{ alert_choice|return_item:x.alert}}</td>
+                                            <td class="text-right">
+                                                {% if x.alert == 0 %} <!-- For safe alert (green)-->
+                                                    <button type="button" class="btn btn-outline-success mb-1" onclick="details_desc('{{x.id}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
                                                         Details
                                                     </button>
-                                                </td>
-                                            </tr>
+                                                {% else %} <!-- For danger alert (red)-->
+                                                    <button type="button" class="btn btn-outline-danger mb-1" onclick="details_desc('{{x.id}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
+                                                        Details
+                                                    </button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
                                     {% endfor %}
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div class="user-data__footer">
+                                                <a class="btn au-btn au-btn-load" href="{% url 'seemorealert' %}">Load More</a>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -127,24 +145,25 @@
 <script>
     const details_id=document.getElementById("detailsdescription");
     yolodata = JSON.parse("{{datafor_js|escapejs}}");
+    //yolodata1 = JSON.parse("{{datafor_js1|escapejs}}");
+
 
     function details_desc(id){
-        details_id.innerHTML = '';
         for (let x in yolodata){
             if (yolodata[x][1]==id && yolodata[x][3] !='無危險行為'){
-                details_id.innerHTML += '<img class="card-img-top" src='+yolodata[x][4]+'>\
+                details_id.innerHTML = '<img class="card-img-top" src='+yolodata[x][4]+'>\
                     <div class="card-body">\
-                    <h4 class="card-title mb-3">'+ yolodata[x][1]+'</h4>\
+                    <h4 class="card-title mb-3">'+ yolodata[x][2]+'</h4>\
+                    <p class="card-text">'+ yolodata[x][1]+'</p>\
                     <p class="card-text">'+ yolodata[x][0]+'</p>\
-                    <p class="card-text">'+ yolodata[x][2]+'</p>\
                     <p class="card-text">'+ yolodata[x][3]+'</p>\
                     </div>';
             }
             else if(yolodata[x][1]==id){
-                details_id.innerHTML += '<div class="card-body">\
-                    <h4 class="card-title mb-3">'+ yolodata[x][1]+'</h4>\
+                details_id.innerHTML = '<div class="card-body">\
+                    <h4 class="card-title mb-3">'+ yolodata[x][2]+'</h4>\
+                    <p class="card-text">'+ yolodata[x][1]+'</p>\
                     <p class="card-text">'+ yolodata[x][0]+'</p>\
-                    <p class="card-text">'+ yolodata[x][2]+'</p>\
                     <p class="card-text">'+ yolodata[x][3]+'</p>\
                     </div>';
             }

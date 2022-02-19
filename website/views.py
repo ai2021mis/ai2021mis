@@ -1,17 +1,29 @@
-from json import dumps
+from queue import Empty
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.http import HttpResponse
+from django.template.defaulttags import register
 from db_api.models import Yolo, Yolo_Files, yolo_trial
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from datetime import date
 from json import dumps
+from django.core import serializers
+import csv
 
 # For profile (username)
 from employee.models import employee, generate_password
 from employee.forms import ProfileForm, ProfileFormtemplate4
 from django.contrib import messages
 
+
+
+
+@register.filter
+def return_item(x,y):
+    try:
+        return x[y]
+    except:
+        return None
 
 
 @login_required(login_url='login')
@@ -36,7 +48,7 @@ def template4(request):
         new_password = user_profile.password
 
     # yolo database (alerts)
-    yolodata = Yolo.objects.all()
+    yolodata = Yolo.objects.order_by('-created_at')[:5] #only most 5 recent alert
     alert_choice = [
         '無危險行為',
         '未正確配戴安全帽',
@@ -47,7 +59,7 @@ def template4(request):
     tableA =[]
     for x in yolodata:
         tableB = []
-        tableB.append(x.created_at.strftime('%Y年 %m月 %d日 (%H:%M)'))
+        tableB.append(x.created_at.strftime('%Y年 %m月 %d日 (%X)'))
         tableB.append(x.id)
         tableB.append(x.title)
         tableB.append(alert_choice[x.alert])
@@ -62,7 +74,16 @@ def template4(request):
         tableA.insert(0,tableB)
     datafor_js = dumps(tableA)
 
+    # stil not sure 
+    js_serializer = serializers.get_serializer("json")()
+    datafor_js1 = js_serializer.serialize(yolodata, ensure_ascii=False)
+
+
+
     return render(request,"template4/index.html", locals())
+
+
+
 
 @login_required
 def lineid_change(request):
@@ -77,6 +98,155 @@ def lineid_change(request):
     user_profile.save()
 
     return redirect('template4')
+
+@login_required
+def seemorealert(request):
+    #profile #################################
+    user = request.user
+    username = user.username
+    user_profile = employee.objects.get(user=user)
+
+    if request.method == 'POST':
+        profile_form = ProfileFormtemplate4(request.POST, instance=user_profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, '資料更新成功')
+        else:
+            messages.warning(request, '請檢查每個欄位是否都有正確填寫')
+    else:
+        profile_form = ProfileFormtemplate4(instance=user_profile)
+    
+    if user_profile.lineid == employee._meta.get_field(field_name='lineid').get_default():
+        new_password = user_profile.password
+
+    # yolo database (alerts) #################################
+    yolodata = Yolo.objects.order_by('-created_at') #only most 5 recent alert
+    alert_choice = [
+        '無危險行為',
+        '未正確配戴安全帽',
+        '雙掛鉤未使用',
+        '偵測到無安全網',
+        '未知',
+        ]
+
+    # Filtering data #################################
+    ## Date (created_at in database)
+    alertdate_query = request.POST.get('alertdate',None)
+    if alertdate_query is not None and alertdate_query!='':
+        yolodata = yolodata.filter(created_at__icontains=alertdate_query)
+    else:
+        alertdate_query='9999-99-99' #cannot pass empty string from url
+    ## ID
+    alertid_query = request.POST.get('alertid',None)
+    if alertid_query is not None and alertid_query!='':
+        yolodata = yolodata.filter(id__icontains=alertid_query)
+    else:
+        alertid_query = 'None' #cannot pass empty string from url
+    ## Title
+    alerttitle_query = request.POST.get('alerttitle',None)
+    if alerttitle_query is not None and alerttitle_query!='':
+        yolodata = yolodata.filter(title__icontains=alerttitle_query)
+    else:
+        alerttitle_query = 'None' #cannot pass empty string from url
+    ## Status(alert in database)
+    alertstatus_query = request.POST.get('radios',None)
+    if alertstatus_query is not None and alertstatus_query!='':
+        result=0
+        for i in range(len(alert_choice)):
+            if alertstatus_query == alert_choice[i]:
+                result = i
+        yolodata = yolodata.filter(alert=result)
+    else:
+        alertstatus_query = 'None' #cannot pass empty string from url
+
+    # Storing data to table #################################
+    tableA =[]
+    for x in yolodata:
+        tableB = []
+        tableB.append(x.created_at.strftime('%Y年 %m月 %d日 (%X)'))
+        tableB.append(x.id)
+        tableB.append(x.title)
+        tableB.append(alert_choice[x.alert])
+        if Yolo_Files.objects.filter(pk=x.id).exists():
+            objyolofiles = Yolo_Files.objects.get(pk=x.id)
+            if objyolofiles.image != '':
+                url = str(objyolofiles.image.url)
+                tableB.append(url)
+            else:
+                url = '/static/template4/images/image-not-found.png'
+                tableB.append(url)
+        tableA.insert(0,tableB)
+    datafor_js = dumps(tableA)
+
+    return render(request,"template4/seemorealert.html", locals())
+
+@login_required
+def downloadcsv(request,alertdate,alertid,alerttitle,alertstatus):
+    # Response #################################
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=alertlist.csv'
+
+    # yolo database (alerts) #################################
+    yolodata = Yolo.objects.order_by('-created_at')
+    alert_choice = [
+        '無危險行為',
+        '未正確配戴安全帽',
+        '雙掛鉤未使用',
+        '偵測到無安全網',
+        '未知',
+        ]
+
+    #Filtering data  #################################
+    if alertdate is not None and alertdate!='' and alertdate!='9999-99-99':
+        yolodata = yolodata.filter(created_at__icontains=alertdate)
+    if alertid is not None and alertid!='' and alertid!='None':
+        yolodata = yolodata.filter(id__icontains=alertid)
+    if alerttitle is not None and alerttitle!='' and alerttitle!='None':
+        yolodata = yolodata.filter(title__contains=alerttitle)
+    if alertstatus is not None and alertstatus!='' and alertstatus!='None':
+        result=0
+        for i in range(len(alert_choice)):
+            if alertstatus == alert_choice[i]:
+                result = i
+        yolodata = yolodata.filter(alert=result)
+
+    # Write csv file #################################
+    writer = csv.writer(response)
+    writer.writerow(['Date','ID','Title','Status'])
+    for x in yolodata:
+        writer.writerow([x.created_at.strftime('%Y年 %m月 %d日 (%X)') , x.id , x.title , alert_choice[x.alert]])
+    
+    return response
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ###################################
