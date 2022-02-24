@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TextSendMessage, FlexSendMessage
+from linebot.models import MessageEvent, TextSendMessage, FlexSendMessage, TemplateSendMessage, CarouselColumn, CarouselTemplate, URIAction, QuickReply, QuickReplyButton, MessageAction
 
 from .models import Manager, AlertNotification
 from employee.models import employee
@@ -71,10 +71,12 @@ def callback(request):
 
                 if mode == 'no':
                     if sent_message == '@管理員登入':
-
-                        # message = TextSendMessage(text='請輸入你的帳號和密碼:\n『格式：@你的賬戶@你的密碼』')
                         flex_message = login_flex_message()
                         message = FlexSendMessage(alt_text='@點此登入系統', contents=flex_message)
+
+                    elif sent_message == '@控制台':
+                        flex_message = website_flex_message()
+                        message = FlexSendMessage(alt_text='@點此登入網頁控制台', contents=flex_message)
 
                     elif sent_message[:1] == '@' and len(sent_message) > 8:
                         username = 'none'
@@ -123,24 +125,34 @@ def callback(request):
                 elif mode != 'no' and sent_message =='@管理員登入':
                     message = TextSendMessage(text=f'『{user_name}』已經是系統管理員')
 
+                elif sent_message == '@控制台':
+                    flex_message = website_flex_message()
+                    message = FlexSendMessage(alt_text='@點此登入網頁控制台', contents=flex_message)
+
                 elif sent_message == '@查看':
-                    message = TextSendMessage(text='好的請稍候～')
                     try:
-                        line_bot_api.push_message(user_id, TextSendMessage(text='好的請稍候'))
-                        instances = Yolo.objects.all().filter(alert='1').order_by('-created_at',)
-                        count = 0
-                        text = '最近的警報:\n'
-                        for instance in instances:
-                            count = count + 1
-                            instance_id = str(instance)
-                            instance_date = str(instance.timestamp)
-                            instance_description = str(instance.description)
-                            text = text + f'\n案件{count}\nid: {instance_id}\n日期: {instance_date}\n說明: {instance_description}\n'
-                        text = text + f'\n總共 {count}個警報 \n'
+                        line_bot_api.push_message(user_id, TextSendMessage(text='好的請稍候~'))
+                        send_alert_list = SendAlertList()
+                        ram_orders = Yolo.objects.all().order_by('-created_at', )
+                        all_alert_instances = [order for order in ram_orders if order.alert != "0"]
+                        total_alerts = len(all_alert_instances)
+                        # total_alerts = Yolo.objects.all().filter(alert='1').count()
+                        if total_alerts > 10:
+                            instances = all_alert_instances[:9]
+                            # instances = Yolo.objects.all().filter(alert='1').order_by('-created_at', )[:9]
+                            more_than_10 = True
+                        else:
+                            instances = all_alert_instances
+                            # instances = Yolo.objects.all().filter(alert='1').order_by('-created_at', )
+                            more_than_10 = False
+                        carousel_columns = send_alert_list.create_message(instances=instances, more_than_10=more_than_10)
+                        line_bot_api.push_message(user_id, TemplateSendMessage(alt_text="@查看", template=CarouselTemplate(columns=carousel_columns)))
+                        text = f'總共 {total_alerts}個警報'
                         message = TextSendMessage(text=text)
 
-                    except Exception:
+                    except Exception as e:
                         message = TextSendMessage(text=f'{user_name} something wrong')
+                        print(e)
 
                 elif sent_message == '@管理員登出':
                     try:
@@ -174,6 +186,22 @@ def callback(request):
                             message = TextSendMessage(text=f'已解除警報『{alert_id}』')
                     except Exception:
                         message = TextSendMessage(text='解除警報失敗，請聯繫管理員')
+
+                elif sent_message == '@常用聯繫人':
+                    if employee.objects.filter(lineid=user_id).exists():
+                        user = employee.objects.get(lineid=user_id)
+                        user_emergency_contact_list = user.emergency_contact
+                        user_emergency_contact_list = user_emergency_contact_list.split("&")
+
+                        emergency_contact = EmengencyConatct()
+                        flex_message_2 = emergency_contact.create_contact_list(user_emergency_contact_list)
+                        line_bot_api.push_message(user_id, FlexSendMessage(alt_text='常用聯繫人', contents=flex_message_2))
+                        message = TextSendMessage(text="點擊按鈕，即可撥打~")
+
+                elif sent_message == '@其它':
+                    quick_reply = OtherFuncQuickReply()
+                    message = TextSendMessage(text='請選擇功能：', quick_reply=quick_reply.return_quick_reply())
+
                 elif sent_message == 'admin activate':
                     pass
                 else:
@@ -243,3 +271,139 @@ def login_flex_message():
               }
             }
     return message
+
+
+def website_flex_message():
+    website_host = settings.WEB_HOST
+    url = website_host + reverse('homepage')
+    message ={
+              "type": "bubble",
+              "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "button",
+                    "action": {
+                      "type": "uri",
+                      "label": "網頁控制台",
+                      "uri": url
+                    },
+                    "style": "primary",
+                    "margin": "sm"
+                  }
+                ]
+              }
+            }
+    return message
+
+
+class SendAlertList:
+    def __generate_carousel_column(self, alert_id='(none)', timestamp='(none)', descrption='(none)'):
+        website_host = settings.WEB_HOST
+        if alert_id != '(none)':
+            yolo_info_url = website_host + "/website/detail/" + alert_id + "/"
+        else:
+            yolo_info_url = website_host + "/website/"
+
+        CarouselColumn_message = CarouselColumn(
+            thumbnail_image_url='https://cdn.pixabay.com/photo/2012/04/12/22/25/warning-sign-30915__340.png',
+            title=f'ID: {alert_id}',
+            text=f'時間: {timestamp}\n警報內容: {descrption}',
+            actions=[
+                URIAction(
+                    label='查看',
+                    uri=yolo_info_url
+                ),
+            ]
+        )
+        return CarouselColumn_message
+
+
+    def __generate_carousel_column_more(self):
+        website = settings.WEB_HOST + "/website/"
+
+        CarouselColumn_message = CarouselColumn(
+            thumbnail_image_url='https://cdn.pixabay.com/photo/2012/04/12/22/25/warning-sign-30915__340.png',
+            title='其他',
+            text='其他',
+            actions=[
+                URIAction(
+                    label='其他',
+                    uri=website
+                ),
+            ]
+        )
+        return CarouselColumn_message
+
+    def create_message(self, instances, more_than_10):
+        columns = []
+        for instance in instances:
+            instance_id = str(instance)
+            instance_timestamp = str(instance.timestamp)
+            instance_description = str(instance.description)
+            carousel_column_object = self.__generate_carousel_column(instance_id, instance_timestamp, instance_description)
+            columns.append(carousel_column_object)
+        if more_than_10:
+            carousel_column_object = self.__generate_carousel_column_more()
+            columns.append(carousel_column_object)
+
+        return columns
+
+
+class EmengencyConatct():
+    def __create_button(self, name, contact_num):
+        button = {
+                    "type": "button",
+                    "style": "secondary",
+                    "action": {
+                        "type": "uri",
+                        "label": f"{name}  {contact_num}",
+                        "uri": f"tel:{contact_num}"
+                    },
+                    "margin": "md"
+                }
+        return button
+
+    def create_contact_list(self, instances):
+        contents = []
+        contents.append({
+                        "type": "text",
+                        "text": "常用聯繫人",
+                        "weight": "bold",
+                        "size": "xl",
+                        "align": "center"
+                    })
+        for instance in instances:
+            flist = instance.split("@")
+            name = str(flist[0])
+            contact_num = str(flist[1])
+            button = self.__create_button(name, contact_num)
+            # button = self.__create_button('chris', '0933')
+            contents.append(button)
+        message = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": contents
+                        }
+                }
+
+        return message
+
+
+class OtherFuncQuickReply():
+    def return_quick_reply(self):
+        quick_reply = QuickReply(
+            items = [
+                QuickReplyButton(
+                    action=MessageAction(label="老師登入", text="admin activate")
+                ),
+                QuickReplyButton(
+                    action=MessageAction(label="老師登入2", text="admin activate")
+                ),
+            ]
+        )
+
+        return quick_reply

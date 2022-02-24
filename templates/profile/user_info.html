@@ -22,6 +22,8 @@
                     <br>
                     <p>LineID : {{ user_profile.line_username }}</p>
                     <br>
+                    <p>緊急聯繫人 : {{ user_profile.emergency_contact}}</p>
+                    <br>
                 </div>
                 <div class='col-md-6 offset-md-3'>
                     <a href= "{% url 'my_profile_update' %}" class='btn btn-warning btn-lg btn-block'>更改負責人資料</a>
