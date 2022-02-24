@@ -22,22 +22,21 @@
     <div class="container">
           <div class="navbar-header">
             <!-- Brand and toggle get grouped for better mobile display -->
-          <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#resNav"  id='navbar-toggler'>
-              <span class="white-text" style="color:white;">目錄</span>
-          </button>
-        </div>
+            <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#resNav"  id='navbar-toggler'>
+                <span class="white-text" style="color:white;">目錄</span>
+            </button>
+          </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="resNav">
-            <ul class="navbar-nav justify-content-center text-center" >
-              {% with url_name=request.resolver_match.url_name %}
-                  <li class="nav-item"><a class="nav-link  {% if url_name == '' %} active{% endif %}" href={% url "homepage" %}>主頁</a></li>
-                  <li class="nav-item"><a class="nav-link  {% if url_name == 'login' %} active{% endif %}" href={% url "login" %}>登入</a></li>
-              {% endwith %}
-            </ul>
+              <ul class="navbar-nav justify-content-center text-center" >
+                {% with url_name=request.resolver_match.url_name %}
+                    <li class="nav-item"><a class="nav-link  {% if url_name == '' %} active{% endif %}" href={% url "homepage" %}>主頁</a></li>
+                    <li class="nav-item"><a class="nav-link  {% if url_name == 'login' %} active{% endif %}" href={% url "login" %}>登入</a></li>
+                {% endwith %}
+              </ul>
             </div>
             <!-- /.navbar-collapse -->
-
- </div>
+      </div>
 </nav>
 
 <!-- header role="banner" -->

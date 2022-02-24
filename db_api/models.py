@@ -79,9 +79,6 @@ class Yolo(models.Model):
 
     class Meta:
         db_table = "Yolo"
-#########################################################
-
-
 
 
 class Yolo_Files(models.Model):
@@ -104,7 +101,7 @@ class Yolo_Files(models.Model):
 
     class Meta:
         db_table = "Yolo_Files"
-
+#########################################################
 
 class Alert_Data(models.Model):
 

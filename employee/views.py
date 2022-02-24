@@ -65,3 +65,5 @@ def user_login_line(request):
     user_profile = employee.objects.get(user=user)
 
     return redirect(f'https://line.me/R/oaMessage/{line_channel_id}/@{user_profile.gongHao}@{user_profile.password}')
+
+
