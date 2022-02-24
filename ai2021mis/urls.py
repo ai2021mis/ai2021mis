@@ -20,7 +20,7 @@ from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
-from db_api.views import YoloView, YoloFilesView, PictureFilesView
+from db_api.views import YoloView, YoloFilesView, PictureFilesView, JetsonNanoView
 from .views import LoginPage, LogOutPage
 
 from db_api.models import Yolo
@@ -39,7 +39,8 @@ def test(request):
 router = DefaultRouter()
 router.register('yolo', YoloView)
 router.register('yolo-files', YoloFilesView)
-router.register('picture-files',PictureFilesView)
+router.register('picture-files', PictureFilesView)
+router.register('jetson', JetsonNanoView)
 # router.register('yolo-alert', AlertYoloView)
 # router.register('yolo-post', YoloPostView, basename='yolo-post')
 
