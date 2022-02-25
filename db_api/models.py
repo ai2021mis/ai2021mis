@@ -195,3 +195,29 @@ def send_picture(sender, instance, created, **kwargs):
     except Exception as e:
         instance.memo = e
         instance.save()
+
+
+class JetsonNano(models.Model):
+    status_choice = (
+        (0, 'connected'),
+        (1, 'disconnect'),
+        (2, 'unknown')
+    )
+
+    # A slug is a string without special characters, in lowercase letters and with dashes instead of spaces
+    id = models.SlugField(unique=True, max_length=50, blank=True, primary_key=True)
+    ip = models.CharField(max_length=50, null=True, blank=True)
+    status = models.IntegerField(default=2, choices=status_choice)
+    timestamp = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(editable=True, default=timezone.now)
+
+    def __str__(self):
+        return self.id
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = unique_slugify(self, str(self.ip).replace('.', ''))
+        super().save(*args, **kwargs)
+
+    class Meta:
+        db_table = "JetsonNano"

@@ -2,7 +2,7 @@ from queue import Empty
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.http import HttpResponse
 from django.template.defaulttags import register
-from db_api.models import Yolo, Yolo_Files, yolo_trial
+from db_api.models import Yolo, Yolo_Files, yolo_trial, JetsonNano
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from datetime import date
@@ -538,3 +538,9 @@ def ShowAlertMsgById(request, id='none'):
 
     return render(request, 'web2.html', output)
 
+
+@login_required(login_url='login')
+def cameralist(request):
+    all_object = JetsonNano.objects.all()
+    all = [x.status for x in all_object]
+    return HttpResponse(all)

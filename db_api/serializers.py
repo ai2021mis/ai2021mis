@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from db_api.models import Yolo, Yolo_Files, Picture_Files
+from db_api.models import Yolo, Yolo_Files, Picture_Files, JetsonNano
+
 
 class YoloSerializer(serializers.HyperlinkedModelSerializer):
     # alert = serializers.BooleanField(required=False)
@@ -9,10 +10,12 @@ class YoloSerializer(serializers.HyperlinkedModelSerializer):
         # fields = '__all__'
         fields = ('id', 'title', 'timestamp')
 
+
 class Yolo_Files_Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Yolo_Files
         fields = ('id','yolo_id','image','created_at')
+
 
 class Picture_Files_Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -54,3 +57,9 @@ class YoloSerializer2(serializers.ModelSerializer):
 #         model = Alert_Yolo
 #         fields = '__all__'
 #         # fields = ('id', 'title')
+
+
+class JetsonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JetsonNano
+        fields = '__all__'
