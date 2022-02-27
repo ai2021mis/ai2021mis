@@ -44,7 +44,7 @@
 <!-- END MENU SIDEBAR-->
 
 <!-- HEADER MOBILE-->
-<div class="page-wrapper-mobile-desktopsize page-wrapper ">
+<div class="page-wrapper-mobile-desktopsize page-wrapper p-md-b-80">
     <header class="header-mobile d-block d-lg-none">
         <div class="header-mobile__bar">
             <div class="container-fluid">
@@ -66,11 +66,11 @@
 
                     <li>
                         <a data-toggle="modal" data-target="#smallmodalprofile" href="#smallmodalprofile">
-                            <i class="zmdi zmdi-settings"></i>Profile</a>
+                            <i class="zmdi zmdi-account"></i>Profile</a>
                     </li>
                     <li>
                         <a data-toggle="modal" data-target="#scrollmodaleditprofile" href="#scrollmodaleditprofile">
-                            <i class="zmdi zmdi-account"></i>Edit Profile</a>
+                            <i class="zmdi zmdi-settings"></i>Edit Profile</a>
                     </li>
                     <li>
                         <a data-toggle="modal" data-target="#scrollmodallineid" href="#scrollmodallineid">
@@ -134,9 +134,6 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="scrollmodalLabel">Edit User Data</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
 						</div>
                         <!-- ID and NAME need to be check one by one so that can be more specified-->
 						<div class="modal-body">
@@ -187,7 +184,6 @@
                                                 <i class="fa fa-envelope"></i>
                                             </div>
                                             {{profile_form.email}}
-                                            <!--<input type="email" id="email" name="email" placeholder="Email" class="form-control" value="testing@mail.com"> -->
                                         </div>
                                     </div>
 
@@ -197,7 +193,6 @@
                                                 <i class="fa fa-phone"></i>
                                             </div>
                                             {{profile_form.contact_num}}
-                                            <!--<input type="text" id="phone" name="phone" placeholder="Phone Number" class="form-control" value="123456789">-->
                                         </div>
                                     </div>
                             </div>
@@ -205,8 +200,8 @@
                             
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-							<button type="submit" class="btn btn-primary" name="action">更新</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button> <!-- maybe use javascript to reset the form to ori-->
+							<button type="submit" class="btn btn-primary" name="saveprofile">更新</button>
 						</div>
 					</div>
 				</div>

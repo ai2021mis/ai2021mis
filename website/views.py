@@ -9,10 +9,12 @@ from datetime import date
 from json import dumps
 from django.core import serializers
 import csv
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 # For profile (username)
 from employee.models import employee, generate_password
-from employee.forms import ProfileForm, ProfileFormtemplate4
+from employee.forms import ProfileFormtemplate4
 from django.contrib import messages
 
 
@@ -25,6 +27,17 @@ def return_item(x,y):
     except:
         return None
 
+@register.filter
+def seraching_image(x,y):
+    try:
+        image = Yolo_Files.objects.get(pk=y)
+        if image.image!='':
+            return image.image.path
+        else:
+            return 'None'
+    except:
+        return ''
+
 
 @login_required(login_url='login')
 def template4(request):
@@ -34,7 +47,7 @@ def template4(request):
     username = user.username
     user_profile = employee.objects.get(user=user)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and 'saveprofile' in request.POST:
         profile_form = ProfileFormtemplate4(request.POST, instance=user_profile)
         if profile_form.is_valid():
             profile_form.save()
@@ -82,9 +95,6 @@ def template4(request):
 
     return render(request,"template4/index.html", locals())
 
-
-
-
 @login_required
 def lineid_change(request):
     new_password = generate_password()
@@ -105,8 +115,9 @@ def seemorealert(request):
     user = request.user
     username = user.username
     user_profile = employee.objects.get(user=user)
-
-    if request.method == 'POST':
+    
+    #Edit profile #################################
+    if request.method == 'POST' and 'saveprofile' in request.POST:
         profile_form = ProfileFormtemplate4(request.POST, instance=user_profile)
         if profile_form.is_valid():
             profile_form.save()
@@ -132,25 +143,25 @@ def seemorealert(request):
     # Filtering data #################################
     ## Date (created_at in database)
     alertdate_query = request.POST.get('alertdate',None)
-    if alertdate_query is not None and alertdate_query!='':
+    if alertdate_query is not None and alertdate_query!='' and 'searching' in request.POST:
         yolodata = yolodata.filter(created_at__icontains=alertdate_query)
     else:
         alertdate_query='9999-99-99' #cannot pass empty string from url
     ## ID
     alertid_query = request.POST.get('alertid',None)
-    if alertid_query is not None and alertid_query!='':
+    if alertid_query is not None and alertid_query!='' and 'searching' in request.POST:
         yolodata = yolodata.filter(id__icontains=alertid_query)
     else:
         alertid_query = 'None' #cannot pass empty string from url
     ## Title
     alerttitle_query = request.POST.get('alerttitle',None)
-    if alerttitle_query is not None and alerttitle_query!='':
+    if alerttitle_query is not None and alerttitle_query!='' and 'searching' in request.POST:
         yolodata = yolodata.filter(title__icontains=alerttitle_query)
     else:
         alerttitle_query = 'None' #cannot pass empty string from url
     ## Status(alert in database)
     alertstatus_query = request.POST.get('radios',None)
-    if alertstatus_query is not None and alertstatus_query!='':
+    if alertstatus_query is not None and alertstatus_query!='' and 'searching' in request.POST:
         result=0
         for i in range(len(alert_choice)):
             if alertstatus_query == alert_choice[i]:
@@ -182,10 +193,6 @@ def seemorealert(request):
 
 @login_required
 def downloadcsv(request,alertdate,alertid,alerttitle,alertstatus):
-    # Response #################################
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=alertlist.csv'
-
     # yolo database (alerts) #################################
     yolodata = Yolo.objects.order_by('-created_at')
     alert_choice = [
@@ -210,12 +217,63 @@ def downloadcsv(request,alertdate,alertid,alerttitle,alertstatus):
                 result = i
         yolodata = yolodata.filter(alert=result)
 
-    # Write csv file #################################
+    # CSV part #################################
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=alertlist.csv'
     writer = csv.writer(response)
-    writer.writerow(['Date','ID','Title','Status'])
+    writer.writerow(['Date','ID','Title','Status']) #Header
     for x in yolodata:
-        writer.writerow([x.created_at.strftime('%Y年 %m月 %d日 (%X)') , x.id , x.title , alert_choice[x.alert]])
+        writer.writerow([x.created_at.strftime('%Y年 %m月 %d日 (%X)') , x.id , x.title , alert_choice[x.alert]]) # the data
     
+    return response
+
+@login_required
+def downloadpdf(request,alertdate,alertid,alerttitle,alertstatus):
+    # yolo database (alerts) #################################
+    yolodata = Yolo.objects.order_by('-created_at')
+    image_yolofiles = Yolo_Files.objects.all()
+    alert_choice = [
+        '無危險行為',
+        '未正確配戴安全帽',
+        '雙掛鉤未使用',
+        '偵測到無安全網',
+        '未知',
+        ]
+
+    #Filtering data  #################################
+    if alertdate is not None and alertdate!='' and alertdate!='9999-99-99':
+        yolodata = yolodata.filter(created_at__icontains=alertdate)
+    if alertid is not None and alertid!='' and alertid!='None':
+        yolodata = yolodata.filter(id__icontains=alertid)
+    if alerttitle is not None and alerttitle!='' and alerttitle!='None':
+        yolodata = yolodata.filter(title__contains=alerttitle)
+    if alertstatus is not None and alertstatus!='' and alertstatus!='None':
+        result=0
+        for i in range(len(alert_choice)):
+            if alertstatus == alert_choice[i]:
+                result = i
+        yolodata = yolodata.filter(alert=result)
+
+        
+    # PDF part
+    template_path = 'template4/downloadpdf.html'
+    context = {'yolodata': yolodata,'alert_choice':alert_choice}
+    
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="Alertlist.pdf"' # if want to desplay
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"' # if only download
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
 
