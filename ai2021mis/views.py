@@ -29,6 +29,7 @@ def LoginPage(request, page=''):
                     response = redirect(next_url)
                 else:
                     response = redirect("homepage")
+                    
 
                 if request.POST.get('remember_me'):
                     # expires = 'Thu, 28-May-2020 08:53:06 GMT'  # 24小时 格林威治时间
@@ -54,10 +55,12 @@ def LoginPage(request, page=''):
 
         next_url = request.GET.get("next", '')
         context['next_url'] = next_url
-        return render(request, 'login/login.html', context)
+        #return render(request, 'login/login.html', context)
+        return render(request, 'template4/login.html', context)
 
 
 
 def LogOutPage(request):
     logout(request)
-    return redirect('homepage')
+    #return redirect('homepage')
+    return redirect('home')

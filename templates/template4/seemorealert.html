@@ -1,0 +1,173 @@
+{% extends 'template4/base.html' %}
+{% load static %}
+{% block title %} Alert List {% endblock %}
+
+{% block content%}
+<div class="page-container2">
+    <section class="p-t-60">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="table-responsive table--no-card table-data m-b-30">
+                            <table class="table table-borderless table-striped table-earning">
+                                <thead>
+                                    <tr>
+                                        <th>Created Date</th>
+                                        <th>ID</th>
+                                        <th class="text-right">Title</th>
+                                        <th class="text-right">Status</th>
+                                        <th class="text-right">Details</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for x in yolodata %}
+                                        <tr>
+                                            <td>{{x.created_at|date:"Y年 m月 d日 "}} {{x.created_at|time:"(H:i)"}}</td>
+                                            <td>{{x.id}}</td>
+                                            <td id="testing" class="text-right">{{x.title}}</td>
+                                            <td class="text-right">{{ alert_choice|return_item:x.alert}}</td>
+                                            <td class="text-right">
+                                                {% if x.alert == 0 %} <!-- For safe alert (green)-->
+                                                <button type="button" class="btn btn-outline-success mb-1" onclick="details_desc('{{x.id}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
+                                                    Details
+                                                </button>
+                                                {% else %} <!-- For danger alert (red)-->
+                                                <button type="button" class="btn btn-outline-danger mb-1" onclick="details_desc('{{x.id}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
+                                                    Details
+                                                </button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Filter</strong>
+                                <small> Panel</small>
+                            </div>
+                            <div class="card-body card-block">
+                                
+                                <form method=POST action="{% url 'seemorealert' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="alertdate" class=" form-control-label">Date</label>
+                                        <input type="date" name="alertdate" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="alertid" class=" form-control-label">Alert ID</label>
+                                        <input type="search" name="alertid" placeholder="ID.." class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="alerttitle" class=" form-control-label">Title</label>
+                                        <input type="search" name="alerttitle" placeholder="Title.." class="form-control">
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-lg-2">
+                                            <label class=" form-control-label">Status:</label>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <div class="form-check">
+                                                <div class="radio">
+                                                    <label for="" class="form-check-label ">
+                                                        <input type="radio" id="{{status}}" name="radios" value="" class="form-check-input">None
+                                                    </label>
+                                                </div>
+                                                {% for status in alert_choice %}
+                                                <div class="radio">
+                                                    <label for="{{status}}" class="form-check-label ">
+                                                        <input type="radio" id="{{status}}" name="radios" value="{{status}}" class="form-check-input">{{status}}
+                                                    </label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-b-5">
+                                        <div class="col-lg-12">
+                                            <button type="submit" name='searching' class="btn btn-sm btn-secondary">Search</button>
+                                        </div>
+                                    </div>    
+                                </form>
+
+                                <div class="row p-b-5">
+                                    <div class="col">
+                                        <a href="{% url 'downloadcsv' alertdate=alertdate_query alertid=alertid_query alerttitle=alerttitle_query alertstatus=alertstatus_query%}  " class="btn btn-sm btn-success">Download CSV File</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <a href="{% url 'downloadpdf' alertdate=alertdate_query alertid=alertid_query alerttitle=alerttitle_query alertstatus=alertstatus_query%}" target="_blank" class="btn btn-sm btn-danger">Download PDF File</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- modal scroll details-->
+    <div class="modal fade" id="scrollmodaldetails" tabindex="-1" role="dialog" aria-labelledby="scrollmodaldetails" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scrollmodalLabel">Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="detailsdescription" class="card">
+                        <!-- details desc content placed -->
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- end modal scroll -->
+</div>
+
+<!-- Scripts -->
+<script>
+    const details_id=document.getElementById("detailsdescription");
+    yolodata = JSON.parse("{{datafor_js|escapejs}}");
+    //yolodata1 = JSON.parse("{{datafor_js1|escapejs}}");
+
+
+    function details_desc(id){
+        for (let x in yolodata){
+            if (yolodata[x][1]==id && yolodata[x][3] !='無危險行為'){
+                details_id.innerHTML = '<img class="card-img-top" src='+yolodata[x][4]+'>\
+                    <div class="card-body">\
+                    <h4 class="card-title mb-3">'+ yolodata[x][2]+'</h4>\
+                    <p class="card-text">'+ yolodata[x][1]+'</p>\
+                    <p class="card-text">'+ yolodata[x][0]+'</p>\
+                    <p class="card-text">'+ yolodata[x][3]+'</p>\
+                    <p class="card-text">'+ yolodata[x][4]+'</p>\
+                    </div>';
+            }
+            else if(yolodata[x][1]==id){
+                details_id.innerHTML = '<div class="card-body">\
+                    <h4 class="card-title mb-3">'+ yolodata[x][2]+'</h4>\
+                    <p class="card-text">'+ yolodata[x][1]+'</p>\
+                    <p class="card-text">'+ yolodata[x][0]+'</p>\
+                    <p class="card-text">'+ yolodata[x][3]+'</p>\
+                    </div>';
+            }
+        }
+    }
+</script>
+{% endblock %}
