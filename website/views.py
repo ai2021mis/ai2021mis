@@ -124,6 +124,8 @@ def seemorealert(request):
             messages.success(request, '資料更新成功')
         else:
             messages.warning(request, '請檢查每個欄位是否都有正確填寫')
+    elif 'cancelprofile' in request.POST:
+        profile_form = ProfileFormtemplate4(instance=user_profile)
     else:
         profile_form = ProfileFormtemplate4(instance=user_profile)
     
