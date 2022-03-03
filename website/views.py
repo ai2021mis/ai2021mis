@@ -40,7 +40,7 @@ def seraching_image(x,y):
 
 @login_required(login_url='login')
 def template4(request):
-
+    line_channel_id = settings.LINE_CHANNEL_ID
     #profile
     user = request.user
     username = user.username
@@ -103,7 +103,6 @@ def lineid_change(request):
     user = request.user
     username = user.username
     user_profile = employee.objects.get(user=user)
-
     user_profile.password = new_password
     user_profile.lineid = employee._meta.get_field(field_name='lineid').get_default()
     user_profile.line_username = employee._meta.get_field(field_name='line_username').get_default()
