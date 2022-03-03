@@ -4,7 +4,7 @@ from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
-from website.views import ShowAlertMsgById ,template2, template3, ShowAlertMsgById, template4,lineid_change,seemorealert,downloadcsv, cameralist
+from website.views import ShowAlertMsgById ,template2, template3, ShowAlertMsgById, template4,lineid_change,seemorealert,downloadcsv,downloadpdf, cameralist
 
 
 # router.register('yolo-alert', AlertYoloView)
@@ -19,6 +19,7 @@ urlpatterns = [
     path('camera_list/', cameralist, name='camera_list'),
     #path('downloadcsv/', downloadcsv ,name='downloadcsv'),
     url(r'^downloadcsv/(?P<alertdate>\d{4}-\d{2}-\d{2})/(?P<alertid>\w+)/(?P<alerttitle>\w+)/(?P<alertstatus>\w+)/$',downloadcsv,name='downloadcsv'),
+    url(r'^downloadpdf/(?P<alertdate>\d{4}-\d{2}-\d{2})/(?P<alertid>\w+)/(?P<alerttitle>\w+)/(?P<alertstatus>\w+)/$',downloadpdf,name='downloadpdf'),
 
     ######
     path('second_gen', template2, name = 'homepage'),
