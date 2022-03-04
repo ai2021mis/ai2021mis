@@ -56,5 +56,3 @@ class employee(models.Model):
 #         employee.objects.create(gongHao='1234', password=generate_password())
 
 
-
-
