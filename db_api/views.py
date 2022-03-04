@@ -14,8 +14,8 @@
 #         else:
 #             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-from db_api.models import Yolo, Yolo_Files, Picture_Files
-from db_api.serializers import YoloSerializer, YoloSerializer2, Yolo_Files_Serializer, Picture_Files_Serializer
+from db_api.models import Yolo, Yolo_Files, Picture_Files, JetsonNano
+from db_api.serializers import YoloSerializer, YoloSerializer2, Yolo_Files_Serializer, Picture_Files_Serializer, JetsonSerializer
 from rest_framework import viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -199,6 +199,77 @@ class YoloView(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+    def destroy(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class JetsonNanoView(viewsets.ModelViewSet):
+    queryset = JetsonNano.objects.all()
+    serializer_class = JetsonSerializer
+
+    permission_classes = (IsAuthenticated,) #直接全部都要有權限
+    # def get_permissions(self):  #permission = create, update, delete, destroy
+    #     if self.action in ('update', 'retrieve', 'destroy',):
+    #         self.permission_classes = [IsAuthenticated]
+    #     elif self.action  in ('create',):
+    #         self.permission_classes = [IsAuthenticated]
+    #     else:
+    #         pass
+    #     return [permission() for permission in self.permission_classes]
+
+
+    # def get_permissions(self):
+    #     if self.action not in ('list',):
+    #         self.permission_classes = [IsAuthenticated]
+    #     return [permission() for permission in self.permission_classes]
+
+    # [GET]
+    def list(self, request, **kwargs):
+        files = JetsonNano.objects.all()
+        file_serializer = JetsonSerializer(files, many=True)
+
+        return Response(file_serializer.data, status=status.HTTP_200_OK)
+
+    # [POST]
+    def create(self, request, *args, **kwargs):
+      file_serializer = JetsonSerializer(data=request.data)
+      if file_serializer.is_valid():
+          file_serializer.save()
+          return Response(status=status.HTTP_201_CREATED)
+      else:
+          print(file_serializer)
+          return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+        except Exception as e:
+            return Response({'message':str(e)})
+        else:
+            #any additional logic
+            serializer = JetsonSerializer(instance, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            file_serializer = JetsonSerializer(data=request.data)
+            if file_serializer.is_valid():
+                instance.status = request.data['status']
+                if 'timestamp' in request.data:
+                    instance.timestamp += ',' +str(request.data['timestamp'])
+                instance.save()
+                serializer = JetsonSerializer(instance, many=False)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({'message': str(e)})
 
 
     def destroy(self, request, *args, **kwargs):
