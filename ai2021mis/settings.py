@@ -158,12 +158,13 @@ AUTHENTICATION_BACKENDS = [
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'cscheng5282@smail.nchu.edu.tw'
-EMAIL_HOST_PASSWORD = 'givlkqaynozrfznl'
+EMAIL_HOST_USER = 'nchutamtam@gmail.com'
+EMAIL_HOST_PASSWORD = 'tamtexuievan'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'cscheng5282@smail.nchu.edu.tw'
+#DEFAULT_FROM_EMAIL = 'cscheng5282@smail.nchu.edu.tw'
 RECIPIENT_ADDRESS = 'wiratamawidarto@gmail.com'
 
 

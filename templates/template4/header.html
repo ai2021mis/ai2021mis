@@ -1,10 +1,11 @@
 {% load static %}
-<!-- MENU SIDEBAR-->
+<!-- MENU SIDEBAR2... css line 2122-->
 <aside class="menu-sidebar2">
     <div class="logo">
         <a href="{% url 'home' %}">
+           <!-- <h1>工地檢查系統</h1> -->
             <img src="{%static 'template4/images/icon/logo.png'%}" alt="Cool Admin" />
-        </a>
+            </a>
     </div>
     
     <div class="menu-sidebar2__content js-scrollbar1">
@@ -24,18 +25,30 @@
             <ul class="list-unstyled navbar__list">
                 
                 <li>
-                    <a data-toggle="modal" data-target="#smallmodalprofile" href="#smallmodalprofile">
+                    <a id = "header_table_one" data-toggle="modal" data-target="#smallmodalprofile" href="#smallmodalprofile">
                         <i class="zmdi zmdi-settings"></i>Profile</a>
                 </li>
                 <li>
-                    <a data-toggle="modal" data-target="#scrollmodaleditprofile" href="#scrollmodaleditprofile"> <!-- must include href, still dont know for sure why -->
+                    <a id = "header_table_two" data-toggle="modal" data-target="#scrollmodaleditprofile" href="#scrollmodaleditprofile"> <!-- must include href, still dont know for sure why -->
                         <i class="zmdi zmdi-account"></i>Edit Profile</a>
                 </li>
                 <li>
-                    <a data-toggle="modal" data-target="#scrollmodallineid" href="#scrollmodallineid">
+                    <a id = "header_table_three" data-toggle="modal" data-target="#scrollmodallineid" href="#scrollmodallineid">
                         <i class="fab fa-line"></i>Line Account</a>
                 </li>
-                
+
+                <li>
+                    <a class="data-reload" href = "#CN" data-reload> CHINESE </a>
+                </li>
+                <!--
+                <li>
+                    <a class="nav-link collapsed" href = "#ENG" data-reload> ENGLISH </a>
+                </li>
+            -->
+
+
+
+
             </ul>
         </nav>
         <!-- END of Navbar -->
@@ -50,8 +63,10 @@
             <div class="container-fluid">
                 <div class="header-mobile-inner">
                     <a class="logo" href="{% url 'home' %}">
-                        <img src="{%static 'template4/images/icon/logo.png'%}" alt="CoolAdmin" />
-                    </a>
+                        <h1>工地檢查系統</h1>
+                        <!--<img src="{%static 'template4/images/icon/logo.png'%}" alt="CoolAdmin" />
+                        -->
+                        </a>
                     <button class="hamburger hamburger--slider" type="button">
                         <span class="hamburger-box">
                             <span class="hamburger-inner"></span>
@@ -75,6 +90,9 @@
                     <li>
                         <a data-toggle="modal" data-target="#scrollmodallineid" href="#scrollmodallineid">
                             <i class="fab fa-line"></i>Line Account</a>
+                    </li>
+                    <li>
+                        <a class="data-reload" href = "#CN" data-reload> CHINESE </a>
                     </li>
                 </ul>
             </div>

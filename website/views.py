@@ -9,6 +9,7 @@ from datetime import date
 from json import dumps
 from django.core import serializers
 import csv
+import datetime
 
 # For profile (username)
 from employee.models import employee, generate_password
@@ -73,6 +74,31 @@ def template4(request):
                 tableB.append(url)
         tableA.insert(0,tableB)
     datafor_js = dumps(tableA)
+
+    #this is for alert statistics
+    current_time = datetime.datetime.now()
+    all_yolos = Yolo.objects.all()
+    total_alerts = len(all_yolos)
+    monthly_alerts = 0
+    daily_alerts = 0
+    weekly_alerts = 0
+    for i in all_yolos:
+        time_delta = current_time.day - i.created_at.day
+        if current_time.month == i.created_at.month:
+            monthly_alerts += 1
+            if time_delta < 7:
+                weekly_alerts += 1
+                if current_time.day == i.created_at.day:
+                    daily_alerts += 1
+        else:
+            pass
+    #camera list statistics
+    jetson_data = JetsonNano.objects.all()
+    available_camera_on = jetson_data.filter(status = 0)
+    available_camera_on_count = len(available_camera_on)
+    available_camera_off = jetson_data.filter(status = 1)
+    available_camera_off_count = len(available_camera_off)
+
 
     # stil not sure 
     js_serializer = serializers.get_serializer("json")()
