@@ -9,8 +9,13 @@ from datetime import date
 from json import dumps
 from django.core import serializers
 import csv
+<<<<<<< HEAD
 import datetime
 
+=======
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+>>>>>>> main
 # For profile (username)
 from employee.models import employee, generate_password
 from employee.forms import ProfileForm, ProfileFormtemplate4
@@ -27,9 +32,20 @@ def return_item(x,y):
         return None
 
 
+@register.filter
+def seraching_image(x,y):
+    try:
+        image = Yolo_Files.objects.get(pk=y)
+        if image.image!='':
+            return image.image.path
+        else:
+            return 'None'
+    except:
+        return ''
+
 @login_required(login_url='login')
 def template4(request):
-
+    line_channel_id = settings.LINE_CHANNEL_ID
     #profile
     user = request.user
     username = user.username
@@ -117,7 +133,6 @@ def lineid_change(request):
     user = request.user
     username = user.username
     user_profile = employee.objects.get(user=user)
-
     user_profile.password = new_password
     user_profile.lineid = employee._meta.get_field(field_name='lineid').get_default()
     user_profile.line_username = employee._meta.get_field(field_name='line_username').get_default()
@@ -244,7 +259,54 @@ def downloadcsv(request,alertdate,alertid,alerttitle,alertstatus):
     
     return response
 
+@login_required
+def downloadpdf(request,alertdate,alertid,alerttitle,alertstatus):
+    # yolo database (alerts) #################################
+    yolodata = Yolo.objects.order_by('-created_at')
+    image_yolofiles = Yolo_Files.objects.all()
+    alert_choice = [
+        '無危險行為',
+        '未正確配戴安全帽',
+        '雙掛鉤未使用',
+        '偵測到無安全網',
+        '未知',
+        ]
 
+    #Filtering data  #################################
+    if alertdate is not None and alertdate!='' and alertdate!='9999-99-99':
+        yolodata = yolodata.filter(created_at__icontains=alertdate)
+    if alertid is not None and alertid!='' and alertid!='None':
+        yolodata = yolodata.filter(id__icontains=alertid)
+    if alerttitle is not None and alerttitle!='' and alerttitle!='None':
+        yolodata = yolodata.filter(title__contains=alerttitle)
+    if alertstatus is not None and alertstatus!='' and alertstatus!='None':
+        result=0
+        for i in range(len(alert_choice)):
+            if alertstatus == alert_choice[i]:
+                result = i
+        yolodata = yolodata.filter(alert=result)
+
+        
+    # PDF part
+    template_path = 'template4/downloadpdf.html'
+    context = {'yolodata': yolodata,'alert_choice':alert_choice}
+    
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="Alertlist.pdf"' # if want to desplay
+    #response['Content-Disposition'] = 'attachment; filename="report.pdf"' # if only download
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 
 

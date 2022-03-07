@@ -247,6 +247,9 @@ class JetsonNano(models.Model):
     ip = models.CharField(max_length=50, null=True, blank=True)
     status = models.IntegerField(default=2, choices=status_choice)
     timestamp = models.TextField(null=True, blank=True)
+    floor = models.CharField(max_length=20, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to='JetsonNano/', default='', blank=True)
     created_at = models.DateTimeField(editable=True, default=timezone.now)
 
     def __str__(self):
