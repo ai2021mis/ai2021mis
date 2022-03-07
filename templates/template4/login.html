@@ -43,7 +43,8 @@
                 <div class="login-wrap">
                     <div class="login-content">
                         <div class="login-logo">
-                            <img src="{%static 'template4/images/icon/logo.png'%}" alt="CoolAdmin">
+                            <h1>工地檢查系統</h1>
+            
                         </div>
                         <div class="login-form">
                             <form action="" method="POST">
@@ -62,6 +63,7 @@
                                     <input id="next" type="text" name="next_url" value="{{ next_url }}" />
                                 </div>
                             </form>
+                               <a href="{% url 'reset_password'%}"> forgot password?</a>
                             <!-- if messages -->
                             {% for message in messages %}
                             <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">

@@ -41,6 +41,7 @@ class employee(models.Model):
     contact_num = models.CharField(max_length=100, null=True, blank=True)
     password = models.CharField(max_length=50, null=False, blank=True, default=generate_password())
     emergency_contact = models.TextField(null=True, blank=True)
+    
 
     def __str__(self):
         return self.name
