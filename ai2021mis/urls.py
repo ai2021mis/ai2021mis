@@ -21,7 +21,7 @@ from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
 from db_api.views import YoloView, YoloFilesView, PictureFilesView, JetsonNanoView
-from .views import LoginPage, LogOutPage, forgot_password, change_password
+from .views import LoginPage, LogOutPage
 
 from django.contrib.auth import views as auth_views
 
@@ -62,10 +62,7 @@ urlpatterns = [
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name= 'template4/forgot_pass.html'), name = "reset_password"),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name = 'template4/confirmation_email.html'), name = "password_reset_done"),
     path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name = 'template4/change_pass.html'), name = "password_reset_confirm"),
-    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name = 'template4/new_password_confirm.html'), name = "password_reset_complete") ,   
-
-    # path('forgot_pass/',forgot_password, name = 'forgot_pass'),
-    # path('change_pass/<token>/', change_password, name = 'change_pass'),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name = 'template4/new_password_confirm.html'), name = "password_reset_complete") ,  
     path('test/', test),
 
 ] + static(settings.MEDIA_URL, document_root =settings.MEDIA_ROOT)
