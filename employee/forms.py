@@ -20,17 +20,19 @@ class ProfileForm(forms.ModelForm):
 class ProfileFormtemplate4(forms.ModelForm):
 	class Meta:
 		model = models.employee
-		fields = ['name', 'email', 'contact_num']
+		fields = ['name', 'email', 'contact_num', 'emergency_contact']
 		widgets = {
 			'name': forms.TextInput(attrs={'placeholder':'name','class':'form-control'}),
 			'email': forms.TextInput(attrs={'placeholder':'example@gmail.com','class':'form-control'}),
 			'contact_num': forms.TextInput(attrs={'placeholder':'phone number','class':'form-control'}),
+			'emergency_contact': forms.TextInput(attrs={'placeholder': 'phone number', 'class': 'form-control'}),
 			}
 	def __init__(self, *args, **kwargs):
 		super(ProfileFormtemplate4, self).__init__(*args, **kwargs)
 		self.fields['name'].label = '姓名'
 		self.fields['email'].label = '郵箱地址'
 		self.fields['contact_num'].label = '聯絡號碼'
+		self.fields['emergency_contact'].label = '緊急聯繫人'
 
 
 # class ProfileForm(forms.Form):

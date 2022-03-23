@@ -9,13 +9,10 @@ from datetime import date
 from json import dumps
 from django.core import serializers
 import csv
-<<<<<<< HEAD
 import datetime
 
-=======
 from django.template.loader import get_template
 from xhtml2pdf import pisa
->>>>>>> main
 # For profile (username)
 from employee.models import employee, generate_password
 from employee.forms import ProfileForm, ProfileFormtemplate4
