@@ -3,7 +3,8 @@
 <aside class="menu-sidebar2">
     <div class="logo">
         <a href="{% url 'home' %}">
-            <img src="{%static 'template4/images/icon/logo.png'%}" alt="Cool Admin" />
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 工地安全系統</h2>
+            <!--<img src="{%static 'template4/images/icon/logo.png'%}" alt="CoolAdmin" />-->
         </a>
     </div>
     
@@ -22,7 +23,6 @@
         <!-- Navbar Desktop -->
         <nav class="navbar-sidebar2">
             <ul class="list-unstyled navbar__list">
-                
                 <li>
                     <a data-toggle="modal" data-target="#smallmodalprofile" href="#smallmodalprofile">
                         <i class="zmdi zmdi-settings"></i>Profile</a>
@@ -35,7 +35,11 @@
                     <a data-toggle="modal" data-target="#scrollmodallineid" href="#scrollmodallineid">
                         <i class="fab fa-line"></i>Line Account</a>
                 </li>
-                
+                <li>
+                    <a href="{% url 'camera_list' %}">
+                        <i class="fa-solid fa-list-ul"></i> Camera list
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- END of Navbar -->
@@ -50,20 +54,20 @@
             <div class="container-fluid">
                 <div class="header-mobile-inner">
                     <a class="logo" href="{% url 'home' %}">
-                        <img src="{%static 'template4/images/icon/logo.png'%}" alt="CoolAdmin" />
+                        <h2><i class="fa-solid fa-triangle-exclamation"></i> 工地安全系統</h2>
+                        <!--<img src="{%static 'template4/images/icon/logo.png'%}" alt="CoolAdmin" />-->
                     </a>
                     <button class="hamburger hamburger--slider" type="button">
                         <span class="hamburger-box">
                             <span class="hamburger-inner"></span>
                         </span>
-                    </button>
+                    </button> 
                 </div>
             </div>
         </div>
         <nav class="navbar-mobile">
             <div class="container-fluid">
                 <ul class="navbar-mobile__list list-unstyled">
-
                     <li>
                         <a data-toggle="modal" data-target="#smallmodalprofile" href="#smallmodalprofile">
                             <i class="zmdi zmdi-account"></i>Profile</a>
@@ -75,6 +79,11 @@
                     <li>
                         <a data-toggle="modal" data-target="#scrollmodallineid" href="#scrollmodallineid">
                             <i class="fab fa-line"></i>Line Account</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'camera_list' %}">
+                            <i class="fa-solid fa-list-ul"></i> Camera list
+                        </a>
                     </li>
                 </ul>
             </div>

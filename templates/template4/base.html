@@ -15,8 +15,7 @@
 
     <!-- Fontfaces CSS-->
     <link href="{%static 'template4/css/font-face.css'%}" rel="stylesheet" media="all">
-    <link href="{%static 'template4/vendor/font-awesome-4.7/css/font-awesome.min.css'%}" rel="stylesheet" media="all">
-    <link href="{%static 'template4/vendor/font-awesome-5/css/fontawesome-all.min.css'%}" rel="stylesheet" media="all">
+    <link href="{%static 'template4/vendor/font-awesome-6/css/all.min.css'%}" rel="stylesheet" media="all">
     <link href="{%static 'template4/vendor/mdi-font/css/material-design-iconic-font.min.css'%}" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
@@ -34,6 +33,8 @@
 
     <!-- Main CSS-->
     <link href="{%static 'template4/css/theme2.css'%}" rel="stylesheet" media="all">
+    <!-- Additional css -->
+    {% block style %}{% endblock %}
 
 </head>
 
@@ -68,6 +69,8 @@
 
     <!-- Main JS-->
     <script src="{%static 'template4/js/main.js'%}"></script>
+    <!-- Additional JS -->
+    {% block javascript %}{% endblock %}
 
 </body>
 </html>

@@ -10,6 +10,7 @@ from django.utils import timezone
 from mylinebot.alert import send_alert_to_managers as line_sendAlert
 from mylinebot.alert import send_alert_img_to_managers as line_sendAlert_picture
 ######################################################
+from PIL import Image
 
 # Create your models here.
 
@@ -209,7 +210,8 @@ class JetsonNano(models.Model):
     ip = models.CharField(max_length=50, null=True, blank=True)
     status = models.IntegerField(default=2, choices=status_choice)
     timestamp = models.TextField(null=True, blank=True)
-    floor = models.CharField(max_length=20, null=True, blank=True)
+    #floor = models.CharField(max_length=50,null=True,blank=True)
+    floor = models.IntegerField(default=0, unique=True, help_text="Each camera assign for one floor -- '0' means groundfloor -- '-1..' is basement") # change to integer field
     description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='JetsonNano/', default='', blank=True)
     created_at = models.DateTimeField(editable=True, default=timezone.now)
@@ -221,6 +223,15 @@ class JetsonNano(models.Model):
         if not self.id:
             self.id = unique_slugify(self, str(self.ip).replace('.', ''))
         super().save(*args, **kwargs)
+
+        # save the resize image
+        if self.image != '':
+            pict = Image.open(self.image)
+            pict_size = (1150,647) # we follow the size pict of 'not found pict' size
+            pict = pict.resize(pict_size, Image.ANTIALIAS)
+            pict.save(self.image.path)
+
+
 
     class Meta:
         db_table = "JetsonNano"

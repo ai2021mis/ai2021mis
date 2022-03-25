@@ -8,13 +8,18 @@ from django.conf import settings
 from datetime import date
 from json import dumps
 from django.core import serializers
+#CSV
 import csv
+#PDF
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 # For profile (username)
 from employee.models import employee, generate_password
 from employee.forms import ProfileForm, ProfileFormtemplate4
 from django.contrib import messages
+from django.db.models import IntegerField
+from django.db.models.functions import Cast
+from django.db.models.expressions import F, Value, Func
 
 
 
@@ -36,8 +41,21 @@ def seraching_image(x,y):
         else:
             return 'None'
     except:
-        return ''
+        return 'None'
 
+@register.filter
+def floor_level(x,y):
+    try:
+        if x>0:
+            return str(x) + ' Floor'
+        elif x==0:
+            return 'Ground Floor'
+        else:
+            x = x*-1
+            return 'B'+str(x)+' Floor'   
+    except:
+        return "Somethings Error"
+    
 @login_required(login_url='login')
 def template4(request):
     line_channel_id = settings.LINE_CHANNEL_ID
@@ -160,7 +178,7 @@ def seemorealert(request):
     else:
         alerttitle_query = 'None' #cannot pass empty string from url
     ## Status(alert in database)
-    alertstatus_query = request.POST.get('radios',None)
+    alertstatus_query = request.POST.get('select',None)
     if alertstatus_query is not None and alertstatus_query!='':
         result=0
         for i in range(len(alert_choice)):
@@ -278,7 +296,35 @@ def downloadpdf(request,alertdate,alertid,alerttitle,alertstatus):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+@login_required(login_url='login')
+def cameralist(request):
+    #profile #################################
+    user = request.user
+    username = user.username
+    user_profile = employee.objects.get(user=user)
 
+    if request.method == 'POST':
+        profile_form = ProfileFormtemplate4(request.POST, instance=user_profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, '資料更新成功')
+        else:
+            messages.warning(request, '請檢查每個欄位是否都有正確填寫')
+    else:
+        profile_form = ProfileFormtemplate4(instance=user_profile)
+    
+    if user_profile.lineid == employee._meta.get_field(field_name='lineid').get_default():
+        new_password = user_profile.password
+
+    #Camera list #################################
+    all_object = JetsonNano.objects.all().annotate(my_integer_field=Cast('floor', IntegerField())).order_by('my_integer_field','floor')
+
+    unavailable = all_object.filter(status=1)
+    unavailable_total = unavailable.count()
+    available = all_object.filter(status=0)
+    available_total = available.count()
+
+    return render(request,"template4/cameralist.html", locals())
 
 
 
@@ -597,8 +643,4 @@ def ShowAlertMsgById(request, id='none'):
     return render(request, 'web2.html', output)
 
 
-@login_required(login_url='login')
-def cameralist(request):
-    all_object = JetsonNano.objects.all()
-    all = [x.status for x in all_object]
-    return HttpResponse(all)
+

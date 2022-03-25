@@ -17,7 +17,6 @@ urlpatterns = [
     path('lineid_change', lineid_change , name='lineid_change'),
     path('seemorealert', seemorealert ,name='seemorealert'),
     path('camera_list/', cameralist, name='camera_list'),
-    #path('downloadcsv/', downloadcsv ,name='downloadcsv'),
     url(r'^downloadcsv/(?P<alertdate>\d{4}-\d{2}-\d{2})/(?P<alertid>\w+)/(?P<alerttitle>\w+)/(?P<alertstatus>\w+)/$',downloadcsv,name='downloadcsv'),
     url(r'^downloadpdf/(?P<alertdate>\d{4}-\d{2}-\d{2})/(?P<alertid>\w+)/(?P<alerttitle>\w+)/(?P<alertstatus>\w+)/$',downloadpdf,name='downloadpdf'),
 
