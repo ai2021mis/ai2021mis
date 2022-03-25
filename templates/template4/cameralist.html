@@ -1,0 +1,210 @@
+{% extends 'template4/base.html' %}
+{% load static %}
+{% block title %} Alert List {% endblock %}
+{% block style %}
+    <!--owl-carousal-->
+    <!--<link href="{%static 'template4/owl-carousal/css/bootstrap.min.css'%}" rel="stylesheet" media="all">-->
+    <link href="{%static 'template4/owl-carousal/css/style2.css'%}" rel="stylesheet" media="all">
+    <link href="{%static 'template4/owl-carousal/css/owl.carousel.min.css'%}" rel="stylesheet" media="all">
+    <link href="{%static 'template4/owl-carousal/fonts/icomoon/style.css'%}" rel="stylesheet" media="all">
+    <!--splide-->
+    <link href="{%static 'template4/splide-3.6.12/dist/css/splide.min.css'%}" rel="stylesheet" media="all">
+    <link href="{%static 'template4/splide-3.6.12/dist/css/themes/splide-default.min.css'%}" rel="stylesheet" media="all">
+    <link href="{%static 'template4/splide-3.6.12/style.css'%}" rel="stylesheet" media="all">
+    
+{% endblock %}
+{% block content%}
+<div class="page-container2">
+    <section class="p-t-60">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+
+                <div class="row p-b-15">
+                    <div class="col col-lg-12">
+                        <div id="camera-image-slider" class="splide">
+                            <div class="splide__track">
+                                <div class="splide__list">
+                                    {% for x in all_object %}
+                                    <li class="splide__slide">
+                                        <div class="slide">
+                                            {% if x.image.path != '' %}
+                                            <img src="{{x.image.url}}" alt="Image" class="img-fluid">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    {{x.floor|floor_level:''}}
+                                                </div>
+                                                <div class="col-6" style="text-align: right;">
+                                                    {% if x.status == 0%}
+                                                    <i class="fa-solid fa-circle" style="color: green;"></i> Online
+                                                    {% else %}
+                                                    <i class="fa-solid fa-circle" style="color: red;"></i> Offline
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                            <img src="{%static 'template4/images/image-not-found.png'%}" alt="Image" class="img-fluid">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    {{x.floor|floor_level:''}}
+                                                </div>
+                                                <div class="col-6" style="text-align: right;">
+                                                    {% if x.status == 0%}
+                                                    <i class="fa-solid fa-circle" style="color: green;"></i> Online
+                                                    {% else %}
+                                                    <i class="fa-solid fa-circle" style="color: red;"></i> Offline
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="owl-carousel owl-1">
+                            {% for x in all_object %}
+                                {% if x.image.path != '' %}
+                                <div><img src="{{x.image.url}}" alt="Image" class="img-fluid">
+                                    {% if x.status == 0 %}
+                                    <div class="image__overlay image__overlay--green">
+                                        <div class="image__title">{{x.floor|floor_level:''}}</div>
+                                        <p class="image__description">
+                                            Online
+                                        </p>
+                                    </div>
+                                    {% else %}
+                                    <div class="image__overlay image__overlay--red">
+                                        <div class="image__title">{{x.floor|floor_level:''}}</div>
+                                        <p class="image__description">
+                                            Offline
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                    
+                                </div>
+                                
+                                {% else %}
+                                <div><img src="{%static 'template4/images/image-not-found.png'%}" alt="Image" class="img-fluid">
+                                    {% if x.status == 0 %}
+                                    <div class="image__overlay image__overlay--green">
+                                        <div class="image__title">{{x.floor|floor_level:''}}</div>
+                                        <p class="image__description">
+                                            Online
+                                        </p>
+                                    </div>
+                                    {% else %}
+                                    <div class="image__overlay image__overlay--red">
+                                        <div class="image__title">{{x.floor|floor_level:''}}</div>
+                                        <p class="image__description">
+                                            Offline
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                {% endif %}
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="row">
+                    
+                    <div class="col-lg-6">
+                        <!-- TOP CAMPAIGN-->
+                        <div class="top-campaign au-card">
+                            <h1 class="m-b-30" style="text-align: center;">
+                                <span class="badge badge-success">Online 
+                                    <span class="badge badge-light">{{available_total}}</span>
+                                </span>
+                            </h1>
+                            <div class="table-responsive table-data" style="max-height:350px;">
+                                <table class="table table-top-campaign">
+                                    <tbody>
+                                        
+                                        {% for x in available %}
+                                        <tr>
+                                            <td style="font-size: 20px;">{{x.floor|floor_level:''}}</td>
+                                            <td style="font-size: 20px;">{{x.ip}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--  END TOP CAMPAIGN-->
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <!-- TOP CAMPAIGN-->
+                        <div class="top-campaign au-card">
+                            <h1 class="m-b-30" style="text-align: center;">
+                                <span class="badge badge-danger">Offline 
+                                    <span class="badge badge-light">{{unavailable_total}}</span>
+                                </span>
+                            </h1>
+                            <div class="table-responsive table-data" style="max-height:350px;">
+                                <table class="table table-top-campaign">
+                                    <tbody>
+                                        {% for x in unavailable %}
+                                        <tr>
+                                            <td style="font-size: 20px;">{{x.floor|floor_level:x.floor}}</td>
+                                            <td style="font-size: 20px;">{{x.ip}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--  END TOP CAMPAIGN-->
+                    </div>
+
+                    
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{%static 'template4/owl-carousal/js/bootstrap.min.js'%}"></script>
+<script src="{%static 'template4/owl-carousal/js/jquery-3.3.1.min.js'%}"></script>
+<script src="{%static 'template4/owl-carousal/js/main.js'%}"></script>
+<script src="{%static 'template4/owl-carousal/js/owl.carousel.min.js'%}"></script>
+<script src="{%static 'template4/owl-carousal/js/popper.min.js'%}"></script>
+
+<script src="{%static 'template4/splide-3.6.12/dist/js/splide.min.js'%}"></script>
+<script src="{%static 'template4/splide-extension-grid-master/dist/js/splide-extension-grid.js'%}"></script>
+<script>
+    new Splide( '.splide',{
+        cover:true,
+        padding:'4%',
+        grid:{
+            rows: 3,
+            cols: 3,
+        },
+        breakpoints: {
+            1300: {
+                grid: {
+                    rows:2,
+                    cols:2,
+                },
+            },
+            600: {
+                grid: false,
+            },
+        },
+    }).mount(window.splide.Extensions);
+</script>
+{% endblock %}
