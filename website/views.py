@@ -10,12 +10,10 @@ from json import dumps
 from django.core import serializers
 #CSV
 import csv
-<<<<<<< HEAD
 #PDF
-=======
 import datetime
 
->>>>>>> main
+
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 # For profile (username)
@@ -63,8 +61,8 @@ def floor_level(x,y):
     
 @login_required(login_url='login')
 def template4(request):
-    line_channel_id = settings.LINE_CHANNEL_ID
     #profile
+    line_channel_id = settings.LINE_CHANNEL_ID
     user = request.user
     username = user.username
     user_profile = employee.objects.get(user=user)
@@ -156,11 +154,12 @@ def lineid_change(request):
     user_profile.line_username = employee._meta.get_field(field_name='line_username').get_default()
     user_profile.save()
 
-    return redirect('template4')
+    return redirect('home')
 
 @login_required
 def seemorealert(request):
     #profile #################################
+    line_channel_id = settings.LINE_CHANNEL_ID
     user = request.user
     username = user.username
     user_profile = employee.objects.get(user=user)
@@ -329,6 +328,7 @@ def downloadpdf(request,alertdate,alertid,alerttitle,alertstatus):
 @login_required(login_url='login')
 def cameralist(request):
     #profile #################################
+    line_channel_id = settings.LINE_CHANNEL_ID
     user = request.user
     username = user.username
     user_profile = employee.objects.get(user=user)
@@ -355,6 +355,57 @@ def cameralist(request):
     available_total = available.count()
 
     return render(request,"template4/cameralist.html", locals())
+
+#this is for selecting specific objects
+@login_required(login_url='login')
+def ShowAlertMsgById(request, id='none'):
+    #profile #################################
+    line_channel_id = settings.LINE_CHANNEL_ID
+    user = request.user
+    username = user.username
+    user_profile = employee.objects.get(user=user)
+
+    if request.method == 'POST':
+        profile_form = ProfileFormtemplate4(request.POST, instance=user_profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, '資料更新成功')
+        else:
+            messages.warning(request, '請檢查每個欄位是否都有正確填寫')
+    else:
+        profile_form = ProfileFormtemplate4(instance=user_profile)
+    
+    if user_profile.lineid == employee._meta.get_field(field_name='lineid').get_default():
+        new_password = user_profile.password
+
+    #######
+    website_host = settings.WEB_HOST
+    if id == 'none':
+        output = {'result':'No object Found'}
+    elif not Yolo.objects.filter(id = id).exists():
+        output = {'result':'No object Found'}
+    else:
+        obj_yolo = Yolo.objects.get(pk = id)
+        #yolo_file.yolo_id.title get parent element from child
+        if Yolo_Files.objects.filter(pk=obj_yolo.pk).exists():
+            obj_yolofiles = Yolo_Files.objects.get(pk=obj_yolo.pk)
+            if obj_yolofiles.image != "":
+                url = str(obj_yolofiles.image.url)
+            else:
+                url = '/static/template4/images/image-not-found.png'
+        else:
+            obj_yolofiles = ''
+            url = ''
+
+        output = {
+            #'result' : 'Success',
+            'obj_yolo' : obj_yolo,
+            'obj_yolofiles' : obj_yolofiles,
+            #'username' : username,
+            'img_url' : url,
+            }
+
+    return render(request, 'template4/showalertmsgbyid.html', locals())
 
 
 
@@ -639,38 +690,7 @@ def template3(request):
 
 ##########################################################################################################################
 
-#this is for selecting specific objects
-@login_required(login_url='login')
-def ShowAlertMsgById(request, id='none'):
-    website_host = settings.WEB_HOST
-    user = request.user
-    username = user.username
-    if id == 'none':
-        output = {'result':'No object Found'}
-    elif not Yolo.objects.filter(id = id).exists():
-        output = {'result':'No object Found'}
-    else:
-        obj_yolo = Yolo.objects.get(pk = id)
-        #yolo_file.yolo_id.title get parent element from child
-        if Yolo_Files.objects.filter(pk=obj_yolo.pk).exists():
-            obj_yolofiles = Yolo_Files.objects.get(pk=obj_yolo.pk)
-            if obj_yolofiles.image != "":
-                url = str(obj_yolofiles.image.url)
-            else:
-                url = ''
-        else:
-            obj_yolofiles = ''
-            url = ''
 
-        output = {
-            'result' : 'Success',
-            'obj_yolo' : obj_yolo,
-            'obj_yolofiles' : obj_yolofiles,
-            'username' : username,
-            'img_url' : url,
-            }
-
-    return render(request, 'web2.html', output)
 
 
 

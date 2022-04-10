@@ -22,10 +22,10 @@ class ProfileFormtemplate4(forms.ModelForm):
 		model = models.employee
 		fields = ['name', 'email', 'contact_num', 'emergency_contact']
 		widgets = {
-			'name': forms.TextInput(attrs={'placeholder':'name','class':'form-control'}),
+			'name': forms.TextInput(attrs={'placeholder':'Name','class':'form-control'}),
 			'email': forms.TextInput(attrs={'placeholder':'example@gmail.com','class':'form-control'}),
-			'contact_num': forms.TextInput(attrs={'placeholder':'phone number','class':'form-control'}),
-			'emergency_contact': forms.TextInput(attrs={'placeholder': 'phone number', 'class': 'form-control'}),
+			'contact_num': forms.TextInput(attrs={'placeholder':'Personal Contact','class':'form-control'}),
+			'emergency_contact': forms.TextInput(attrs={'placeholder': 'Name@number', 'class': 'form-control'}),
 			}
 	def __init__(self, *args, **kwargs):
 		super(ProfileFormtemplate4, self).__init__(*args, **kwargs)
