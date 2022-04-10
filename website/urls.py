@@ -16,6 +16,7 @@ urlpatterns = [
     path('forth_gen', template4, name="template4"),
     path('lineid_change', lineid_change , name='lineid_change'),
     path('seemorealert', seemorealert ,name='seemorealert'),
+    path('website/detail/<str:id>/', ShowAlertMsgById, name='yolo-info'), # no need the website if we using the r'^website/' path
     path('camera_list/', cameralist, name='camera_list'),
     url(r'^downloadcsv/(?P<alertdate>\d{4}-\d{2}-\d{2})/(?P<alertid>\w+)/(?P<alerttitle>\w+)/(?P<alertstatus>\w+)/$',downloadcsv,name='downloadcsv'),
     url(r'^downloadpdf/(?P<alertdate>\d{4}-\d{2}-\d{2})/(?P<alertid>\w+)/(?P<alerttitle>\w+)/(?P<alertstatus>\w+)/$',downloadpdf,name='downloadpdf'),
@@ -23,7 +24,7 @@ urlpatterns = [
     ######
     path('second_gen', template2, name = 'homepage'),
     path('third_gen', template3, name = 'template_14_12_2021(homepage)'),
-    path('detail/<str:id>/', ShowAlertMsgById, name='yolo-info'),
+    
 
 ]
 

@@ -10,12 +10,8 @@ from django.utils import timezone
 from mylinebot.alert import send_alert_to_managers as line_sendAlert
 from mylinebot.alert import send_alert_img_to_managers as line_sendAlert_picture
 ######################################################
-<<<<<<< HEAD
 from PIL import Image
-
-=======
 from employee.models import employee
->>>>>>> main
 # Create your models here.
 
 #so that there is no object with the same slug
@@ -103,6 +99,13 @@ class Yolo_Files(models.Model):
         if not self.id:
             self.id = unique_slugify(self, slugify(self.yolo_id))
         super().save(*args, **kwargs)
+
+        # save the resize image
+        if self.image != '':
+            pict = Image.open(self.image)
+            pict_size = (1150,647) # we follow the size pict of 'not found pict' size
+            pict = pict.resize(pict_size, Image.ANTIALIAS)
+            pict.save(self.image.path)
 
     class Meta:
         db_table = "Yolo_Files"
