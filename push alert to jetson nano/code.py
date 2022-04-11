@@ -1,14 +1,12 @@
 import io
-import PIL
 import requests
 import numpy as np
-import matplotlib.pylab as plt
 import cv2
 import os
 import datetime
 import base64
 
-host_name = 'https://42a6-111-83-174-161.ngrok.io'
+host_name = 'http://127.0.0.1:8000'
 upload_message_url = host_name + '/api/yolo/'
 username = 'user01'
 password = 'user01'
@@ -95,7 +93,7 @@ if __name__ == '__main__':
     # main()
     img_url = './test.jpg'
     img, img_shape = image_process(img_url)
-    alert_name = input("AlertName")
+    alert_name = input("AlertName: ")
     alert_name = alert_name + '.jpg'
     push_message(alert_name, img)
     print("Done")
