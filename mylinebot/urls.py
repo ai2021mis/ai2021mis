@@ -153,11 +153,11 @@ def callback(request):
 
 
 def callback2(request):
-    from .alert import clear_tasks_queue
+    from .alert import ngrok_task_queue
     try:
-        clear_tasks_queue()
+         result = ngrok_task_queue()
         # alert_flex_message = alert_FlexMessage(str(instance.id), str(instance.timestamp), str(instance.description))
-        result = "OK"
+        # result = "OK"
     except Exception:
         result = Exception
     return HttpResponse(result)

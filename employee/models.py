@@ -38,6 +38,8 @@ class employee(models.Model):
     email = models.CharField(max_length=100, null=True, blank=True)
     lineid = models.CharField(max_length=150, null=False, blank=True, default='no')
     line_username = models.CharField(max_length=150, null=False, blank=True, default='no')
+    alert_service = models.BooleanField(default=False)
+    continuous_alert = models.BooleanField(default=False)
     contact_num = models.CharField(max_length=100, null=True, blank=True)
     password = models.CharField(max_length=50, null=False, blank=True, default=generate_password())
     emergency_contact = models.TextField(null=True, blank=True)

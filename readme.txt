@@ -1,3 +1,7 @@
+ngrok: http://127.0.0.1:4040
+celery: http://localhost:5555
+
+
 The beginning part is the same as last time
 Here is the link: https://bramble-limburger-c57.notion.site/2021-10-21-f26978e3c49f49c296e86a3c092d7f76
 

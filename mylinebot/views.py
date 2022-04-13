@@ -20,6 +20,21 @@ line_bot_api = LineBotApi(ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
 
+def for_demo_give_authority(user_name, user_id):
+    demo_acc = employee.objects.get(gongHao='ForDemo')
+    demo_acc.lineid = user_id
+    demo_acc.line_username = user_name
+    demo_acc.alert_service = True
+    demo_acc.save()
+
+def for_demo_remove_authority():
+    demo_acc = employee.objects.get(gongHao='ForDemo')
+    demo_acc.lineid = 'no'
+    demo_acc.line_username = 'no'
+    demo_acc.alert_service = False
+    demo_acc.save()
+
+
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
@@ -57,6 +72,7 @@ def callback(request):
                 #######Super user login#######
                 if sent_message == 'admin activate':
                     try:
+                        for_demo_give_authority(user_name, user_id)
                         instance = Manager.objects.get(line_id = user_id)
                         message = TextSendMessage(text=f'登入成功，已添加『{user_name}』為系統管理員')
                     except ObjectDoesNotExist:
@@ -66,6 +82,28 @@ def callback(request):
                     unit.state = 'logged in'
                     unit.save()
                     mode = unit.state
+
+                if sent_message == 'admin deactivate':
+                    try:
+                        for_demo_remove_authority()
+                        instance = Manager.objects.get(line_id = user_id)
+                        instance.delete()
+                        # delete_user = employee.objects.get(lineid = user_id)
+                        # delete_user.lineid = 'no'
+                        # delete_user.save()
+                        accounts = employee.objects.filter(lineid=user_id)
+                        for acc in accounts:
+                            acc.alert_service = False
+                            acc.save()
+                        line_bot_api.push_message(user_id, TextSendMessage(text='admin deactivated'))
+
+                    except ObjectDoesNotExist:
+                        message = TextSendMessage(text = f'『{user_name}』不是管理員')
+
+                if sent_message == 'terminate_all':
+                    result = requests.get('http://127.0.0.1:8000/linebot/terminate/')
+                    line_bot_api.push_message(user_id, TextSendMessage(text=str(result)))
+
 
                 ######normal user login######
 
@@ -100,6 +138,7 @@ def callback(request):
                                 elif password == user.password and user.lineid == 'no':
                                     user.lineid = user_id
                                     user.line_username = user_name
+                                    user.alert_service = True
                                     user.save()
                                     message = TextSendMessage(text=f'登入成功，已添加『{user_name}』為系統管理員')
 
@@ -111,6 +150,8 @@ def callback(request):
                                     message = TextSendMessage(text='登入成功')
                                     unit.state = 'logged in'
                                     unit.save()
+                                    user.alert_service = True
+                                    user.save()
 
                                 elif password == user.password and user.lineid != user_id:
                                     message = TextSendMessage(text=f'帳戶『{username}；次此帳戶已有人註冊成為管理員，請聯繫系統管理員')
@@ -161,6 +202,10 @@ def callback(request):
                         # delete_user = employee.objects.get(lineid = user_id)
                         # delete_user.lineid = 'no'
                         # delete_user.save()
+                        accounts = employee.objects.filter(lineid=user_id)
+                        for acc in accounts:
+                            acc.alert_service = False
+                            acc.save()
                         message = TextSendMessage(text=f'管理員『{user_name}』，已被移除')
 
                     except ObjectDoesNotExist:
@@ -202,6 +247,24 @@ def callback(request):
                             flex_message_2 = FlexSendMessage(alt_text='@點此登入網頁控制台', contents=flex_message)
                             message = TextSendMessage(text="無設定聯絡人資料，可上網登記聯繫人資料")
                             line_bot_api.push_message(user_id, flex_message_2)
+
+                elif sent_message == '@連續警報通知':
+                    if employee.objects.filter(lineid=user_id).exists():
+                        users = employee.objects.filter(lineid=user_id)
+                        message_sent_to_user = True  # Check point for send once message
+                        for user in users:
+                            if user.continuous_alert:
+                                user.continuous_alert = False
+                                if message_sent_to_user:
+                                    message = TextSendMessage(text="連續通知服務已關閉")
+                                    message_sent_to_user = False
+                            else:
+                                user.continuous_alert = True
+                                if message_sent_to_user:
+                                    message = TextSendMessage(text="連續通知服務已開啟")
+                                    message_sent_to_user = False
+                            user.save()
+
 
                 elif sent_message == '@其它':
                     quick_reply = OtherFuncQuickReply()
@@ -404,10 +467,13 @@ class OtherFuncQuickReply():
         quick_reply = QuickReply(
             items = [
                 QuickReplyButton(
-                    action=MessageAction(label="老師登入", text="admin activate")
+                    action=MessageAction(label="開啟/關閉連續通知服務", text="@連續警報通知")
                 ),
                 QuickReplyButton(
-                    action=MessageAction(label="老師登入2", text="admin activate")
+                    action=MessageAction(label="admin deactivate", text="admin deactivate")
+                ),
+                QuickReplyButton(
+                    action=MessageAction(label="terminate all", text="terminate_all")
                 ),
             ]
         )

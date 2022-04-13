@@ -21,6 +21,7 @@ class Manager(models.Model):
 class AlertNotification(models.Model):
     alert_id = models.ForeignKey('db_api.Yolo', on_delete=models.CASCADE, null=True)
     line_user = models.ForeignKey('employee.employee', on_delete=models.CASCADE, null=True)
+    continuous_alert = models.BooleanField(default=False)
     received = models.BooleanField(default=False)
     created_at = models.DateTimeField(editable=True, default=timezone.now)
     task_id = models.CharField(max_length=500, null=True, blank=True, default='')
@@ -37,6 +38,7 @@ class AlertNotification(models.Model):
 class AlertImageNotification(models.Model):
     alert_id = models.ForeignKey('db_api.Yolo_Files', on_delete=models.CASCADE, null=True)
     line_user = models.ForeignKey('employee.employee', on_delete=models.CASCADE, null=True)
+    continuous_alert = models.BooleanField(default=False)
     received = models.BooleanField(default=False)
     created_at = models.DateTimeField(editable=True, default=timezone.now)
     task_id = models.CharField(max_length=500, null=True, blank=True, default='')
@@ -52,12 +54,18 @@ class AlertImageNotification(models.Model):
 
 @receiver(post_save, sender=AlertNotification)
 def push_alert_notification(sender, instance, created, **kwargs):
-    if created and instance.received == False:
+    if created and instance.received == False and instance.continuous_alert == False:
+        task_id = mylinebot.alert.append_task_queue(instance)
+        instance.task_id = task_id
+        instance.received = True
+        instance.save()
+
+    elif created and instance.received == False and instance.continuous_alert == True:
         task_id = mylinebot.alert.append_task_queue(instance)
         instance.task_id = task_id
         instance.save()
 
-    elif not created and instance.received == True:
+    elif not created and instance.received == True and instance.continuous_alert == True:
         mylinebot.alert.remove_task_from_queue(instance.task_id)
 
 
