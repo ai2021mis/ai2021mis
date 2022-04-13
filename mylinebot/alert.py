@@ -10,8 +10,10 @@ from linebot.models import TextMessage, TextSendMessage, FlexSendMessage, ImageS
 ###########################################
 from ai2021mis.celery import app
 from celery.result import AsyncResult
-from .tasks import create_task, create_image_task
+from .tasks import create_task, create_image_task, turn_on_ngrok
 import signal
+
+# from pyngrok import ngrok
 
 ACCESS_TOKEN = settings.LINE_CHANNEL_ACCESS_TOKEN
 line_bot_api = LineBotApi(ACCESS_TOKEN)
@@ -42,16 +44,16 @@ handler = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 ###################################################################
 def send_alert_to_managers(Yolo_object):
     all_objects = employee.objects.all()
-    managers = [object for object in all_objects if object.lineid != 'no']
+    managers = [object for object in all_objects if object.lineid != 'no' and object.alert_service is True]
     for manager in managers:
-        notification = AlertNotification.objects.create(alert_id=Yolo_object, line_user=manager)
+        notification = AlertNotification.objects.create(alert_id=Yolo_object, line_user=manager, continuous_alert=manager.continuous_alert)
         notification.save()
 
 
 def send_alert_img_to_managers(Yolofile_object):
     all_objects = employee.objects.all()
-    managers = [object for object in all_objects if object.lineid != 'no']
-    for manager  in managers:
+    managers = [object for object in all_objects if object.lineid != 'no' and object.alert_service is True]
+    for manager in managers:
         notification = AlertImageNotification.objects.create(alert_id=Yolofile_object, line_user=manager)
         notification.save()
 
@@ -102,16 +104,36 @@ def append_task_queue(notification_object):
     alert_id = str(notification_object.alert_id.id)
     timestamp = str(notification_object.alert_id.timestamp)
     description = str(notification_object.alert_id.description)
+    continuous_alert = bool(notification_object.continuous_alert)
     repeat_interval = int(30)
     message = dict()
     message[notification_id] = {'lineid': line_id,
                                   'alert_id': alert_id,
                                   'timestamp': timestamp,
                                   'description': description,
+                                'continuous_alert' : continuous_alert,
                                 'repeat_interval': repeat_interval,
                                 }
     result = create_task.delay(message)
     return result.task_id
+
+
+def ngrok_task_queue():
+    # http_tunnel = ngrok.connect(8000, bind_tls=True)
+    # print(http_tunnel)
+    # http_tunnel2 = ngrok.get_tunnels()
+    # print(http_tunnel2)
+    #
+    # ngrok_process = ngrok.get_ngrok_process()
+    #
+    # try:
+    #     # Block until CTRL-C or some other terminating event
+    #     ngrok_process.proc.wait()
+    # except KeyboardInterrupt:
+    #     print(" Shutting down server.")
+    #     ngrok.kill()
+    result = turn_on_ngrok.delay()
+    return result
 
 
 def remove_task_from_queue(task_id):

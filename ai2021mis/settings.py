@@ -166,9 +166,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 #DEFAULT_FROM_EMAIL = 'cscheng5282@smail.nchu.edu.tw'
 RECIPIENT_ADDRESS = 'wiratamawidarto@gmail.com'
-
-
-WEB_HOST = 'https://4b97-36-234-169-216.ngrok.io'
+# Web Host ######################
+ngrok_dir = os.path.join(BASE_DIR, 'ngrok', 'ngrok_link.txt')
+WEB_HOST = ''
+with open(ngrok_dir) as file:
+    WEB_HOST = str(file.read())
+################################
 LINE_CHANNEL_ACCESS_TOKEN = 'sRRx49jYLQL+JbvGmq9s8CkvelMEJMexixUGnUJD77Nje9aW6Nf3jf4jGQ7zNrTM1tk0UBVsPc5Ezm4zrU7q8ZHoRI6kHkcxu4dADMmLjKcmQETiUVe1ov0G44yMTbzwVwrKd8JjI8lJjRJ4R5H2LgdB04t89/1O/w1cDnyilFU='
 LINE_CHANNEL_SECRET = 'dc642785c53e406cdcc72ec324aa6ca8'
 LINE_CHANNEL_ID = '@224zbfei'
