@@ -6,11 +6,12 @@
 <div class="page-container2">
     <div class="card">
         <!-- details desc content placed -->
-{#        {% if img_url %}#}
-        <img class="card-img-top" src='{{ img_url }}'>
-        <h1>{{ img_url }}</h1>
-{#        {% endif %}#}
-        
+        {% if obj_yolofiles %}
+            {% if obj_yolofiles.image.url != '' %}
+            <img class="card-img-top" src='{{ obj_yolofiles.image.url }}'>
+            {%else %}
+            <img class="card-img-top" src="{%static 'template4/images/image-not-found.png'%}">
+            {%endif%}
         <div class="card-body">
             <h3 class="card-title mb-3">ID: {{ obj_yolo.id }}</h3>
             <p class="card-text">標題: {{ obj_yolo.title }}</p>
@@ -18,6 +19,12 @@
             <p class="card-text">描述: {{ obj_yolo.description }}</p>
             <p class="card-text">日期: {{ obj_yolo.timestamp }}</p>
         </div>
+        {%else%}
+        <div class="card-body">
+            <h3 class="card-title mb-3">No data available on our database with ID : {{id}}</h3>
+        </div>
+        {% endif %}
+        
     </div>
 </div>
 {% endblock %}
