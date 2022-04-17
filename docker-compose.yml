@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  ai2021mis:
+    image: app_1:1.1
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=[*]
+      - CELERY_BROKER=redis://redis:6390/0
+      - CELERY_BACKEND=redis://redis:6390/0
+    command: sh -c "python manage.py migrate && python manage.py runserver"
+
+  celery:
+    restart: always
+    image: app_1:1.1
+    command: sh -c "celery -A ai2021mis worker -l info"
+    volumes:
+      - .:/ai2021mis
+    depends_on:
+      - ai2021mis
+      - redis
+    environment:
+      - CELERY_BROKER=redis://redis:6390/0
+      - CELERY_BACKEND=redis://redis:6390/0
+
+  redis:
+    image: redis
+    restart: always
+    expose: 
+      - "6390"
+    ports:
+      - "6390:6390"
+
+
