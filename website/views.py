@@ -8,11 +8,15 @@ from django.conf import settings
 from datetime import date
 from json import dumps
 from django.core import serializers
+#CSV
 import csv
+#PDF
 import datetime
-from pytz import timezone
+
+
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+# For profile (username)
 from employee.models import employee, generate_password
 from employee.forms import ProfileForm, ProfileFormtemplate4
 from django.contrib import messages
@@ -215,11 +219,9 @@ def seemorealert(request):
 
     # Storing data to table #################################
     tableA =[]
-    date_format='Y年 m月 d日 (%H:%M:%S)'
     for x in yolodata:
         tableB = []
-        date = x.created_at.astimezone(timezone('Asia/Taipei'))
-        tableB.append(date.strftime(date_format))
+        tableB.append(x.created_at.strftime('%Y年 %m月 %d日 (%X)'))
         tableB.append(x.id)
         tableB.append(x.title)
         tableB.append(alert_choice[x.alert])
@@ -269,10 +271,8 @@ def downloadcsv(request,alertdate,alertid,alerttitle,alertstatus):
     # Write csv file #################################
     writer = csv.writer(response)
     writer.writerow(['Date','ID','Title','Status'])
-    date_format='Y年 m月 d日 (%H:%M:%S)'
     for x in yolodata:
-        date = x.created_at.astimezone(timezone('Asia/Taipei'))
-        writer.writerow([date.strftime(date_format) , x.id , x.title , alert_choice[x.alert]])
+        writer.writerow([x.created_at.strftime('%Y年 %m月 %d日 (%X)') , x.id , x.title , alert_choice[x.alert]])
     
     return response
 
@@ -389,12 +389,20 @@ def ShowAlertMsgById(request, id='none'):
         #yolo_file.yolo_id.title get parent element from child
         if Yolo_Files.objects.filter(pk=obj_yolo.pk).exists():
             obj_yolofiles = Yolo_Files.objects.get(pk=obj_yolo.pk)
+            if obj_yolofiles.image != "":
+                url = str(obj_yolofiles.image.url)
+            else:
+                url = '/static/template4/images/image-not-found.png'
         else:
             obj_yolofiles = ''
+            url = ''
 
         output = {
+            #'result' : 'Success',
             'obj_yolo' : obj_yolo,
             'obj_yolofiles' : obj_yolofiles,
+            #'username' : username,
+            'img_url' : url,
             }
 
     return render(request, 'template4/showalertmsgbyid.html', locals())

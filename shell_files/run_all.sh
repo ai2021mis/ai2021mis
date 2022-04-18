@@ -1,5 +1,4 @@
-source GitHub/ai2021mis/VENV/bin/activate
-cd GitHub/ai2021mis/shell_files/
+source Github/VENV/bin/activate
 gnome-terminal -- ./run_ngrok.sh
 sleep 10
 gnome-terminal -- ./run_server.sh
