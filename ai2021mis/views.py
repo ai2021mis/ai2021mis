@@ -4,6 +4,17 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from employee.models import employee
 
+#these imports are for custom email forgot pass
+from django.contrib.auth.models import User
+from django.core.mail import send_mail, BadHeaderError
+from django.contrib.auth.forms import PasswordResetForm
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.conf import settings
+
 def LoginPage(request, page=''):
 
     if request.user.is_authenticated:
@@ -65,3 +76,39 @@ def LogOutPage(request):
     logout(request)
     #return redirect('homepage')
     return redirect('home')
+
+
+
+def password_reset_request(request):
+    if request.method == 'POST':
+        password_form = PasswordResetForm(request.POST)
+        if password_form.is_valid():
+            # data = password_form.cleaned_data.get('email')
+            data = password_form.cleaned_data['email']
+            user_email = User.objects.filter(Q(email = data))
+            if user_email.exists():
+                for user in user_email:
+                    subject = "password request."
+                    email_template_name = 'template4/password_reset_subject.txt'
+                    parameters = {
+                        'email': user.email,
+                        'domain' : settings.WEB_HOST,
+                        # 'domain' : '127.0.0.1/',
+                        'site_name': 'nchu mis',
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': default_token_generator.make_token(user),
+                        # 'protocol': 'https',
+                    }
+                    email = render_to_string(email_template_name, parameters)
+                    try:
+                        send_mail(subject, email, '', [user.email], fail_silently = False)
+                    except:
+                        return HttpResponse('Invalid Header')
+                    return redirect('password_reset_done')
+    else:
+        password_form = PasswordResetForm()
+
+    context = {
+        'password_form': password_form,
+        }
+    return render(request, 'template4/forgot_pass.html', context)
