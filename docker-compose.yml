@@ -1,36 +1,64 @@
 version: "3.7"
 
 services:
-  ai2021mis:
-    image: app_1:1.1
+  ngrok:
+    image: app_1:1.2
+    command: sh -c "python ngrok/run_ngrok.py"
+    # volumes:
+    #   - for_ai2021mis:/ai2021mis
     ports:
       - "8000:8000"
-    environment:
-      - DEBUG=1
-      - DJANGO_ALLOWED_HOSTS=[*]
-      - CELERY_BROKER=redis://redis:6390/0
-      - CELERY_BACKEND=redis://redis:6390/0
-    command: sh -c "python manage.py migrate && python manage.py runserver"
 
-  celery:
-    restart: always
-    image: app_1:1.1
-    command: sh -c "celery -A ai2021mis worker -l info"
-    volumes:
-      - .:/ai2021mis
-    depends_on:
-      - ai2021mis
-      - redis
+
+  ai2021mis:
+    image: app_1:1.2
+    ports:
+      - "4000:8000"
     environment:
-      - CELERY_BROKER=redis://redis:6390/0
-      - CELERY_BACKEND=redis://redis:6390/0
+      - DEFAULT_REDIS_LOCATION_1= redis://redis:6379/1
+      - DEFAULT_REDIS_LOCATION_2= redis://redis:6379/2
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    # volumes:
+    #   - for_ai2021mis:/ai2021mis
+    command: sh -c "sleep 10 && python manage.py migrate && python manage.py runserver"
 
   redis:
     image: redis
     restart: always
-    expose: 
-      - "6390"
+
+  celery_worker:
+    restart: always
+    image: app_1:1.2
+    command: sh -c "sleep 15 && celery -A ai2021mis worker -l info"
+    # volumes:
+    #   - for_ai2021mis:/ai2021mis
+    environment:
+      - DEFAULT_REDIS_LOCATION_1= redis://redis:6379/1
+      - DEFAULT_REDIS_LOCATION_2= redis://redis:6379/2
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - ai2021mis
+      - redis
+
+  celery_flower:
+    restart: always
+    image: app_1:1.2
+    command: sh -c "sleep 15 && celery -A ai2021mis flower"
+    # volumes:
+    #   - for_ai2021mis:/ai2021mis
+    environment:
+      - DEFAULT_REDIS_LOCATION_1= redis://redis:6379/1
+      - DEFAULT_REDIS_LOCATION_2= redis://redis:6379/2
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - ai2021mis
+      - redis
+      - celery_worker
     ports:
-      - "6390:6390"
+      - '5555:5555'
+
+volumes:
+  for_ai2021mis:
+    external: true
 
 

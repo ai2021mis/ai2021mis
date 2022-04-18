@@ -108,7 +108,7 @@ CACHES = {
     "default": {
         # 預設使用
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1", # 指定redis://IP/第幾個DB
+        "LOCATION": os.environ.get("DEFAULT_REDIS_LOCATION_1", "redis://127.0.0.1:6379/1"), # 指定redis://IP/第幾個DB
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -117,7 +117,7 @@ CACHES = {
     # 其他redis庫
     "testRedis": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/2",
+        "LOCATION": os.environ.get("DEFAULT_REDIS_LOCATION_2", "redis://127.0.0.1:6379/2"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
@@ -192,7 +192,7 @@ USE_TZ = True
 # DATETIME_FORMAT = '%d/%m/%Y %H:%M:%S'
 
 # Celery
-BROKER_URL = 'redis://localhost:6379/'
+BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/')
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
