@@ -14,11 +14,11 @@
                             <table class="table table-borderless table-striped table-earning">
                                 <thead>
                                     <tr>
-                                        <th>Created Date</th>
+                                        <th>創建日期</th>
                                         <th>ID</th>
-                                        <th class="text-right">Title</th>
-                                        <th class="text-right">Status</th>
-                                        <th class="text-right">Details</th>
+                                        <th class="text-right">標題</th>
+                                        <th class="text-right">狀態</th>
+                                        <th class="text-right">詳情</th>
                                     </tr>
                                 </thead>
 
@@ -32,11 +32,11 @@
                                             <td class="text-right">
                                                 {% if x.alert == 0 %} <!-- For safe alert (green)-->
                                                 <button type="button" class="btn btn-outline-success mb-1" onclick="details_desc('{{x.id}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
-                                                    Details
+                                                    詳情
                                                 </button>
                                                 {% else %} <!-- For danger alert (red)-->
                                                 <button type="button" class="btn btn-outline-danger mb-1" onclick="details_desc('{{x.id}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
-                                                    Details
+                                                    詳情
                                                 </button>
                                                 {% endif %}
                                             </td>
@@ -51,32 +51,32 @@
                     <div class="col">
                         <div class="card">
                             <div class="card-header">
-                                <strong>Filter</strong>
-                                <small> Panel</small>
+                                <strong>搜尋</strong>
+                                
                             </div>
                             <div class="card-body card-block">
                                 
                                 <form method=POST action="{% url 'seemorealert' %}">
                                     {% csrf_token %}
                                     <div class="form-group">
-                                        <label for="alertdate" class=" form-control-label">Date</label>
+                                        <label for="alertdate" class=" form-control-label">日期</label>
                                         <input type="date" name="alertdate" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label for="alertid" class=" form-control-label">Alert ID</label>
+                                        <label for="alertid" class=" form-control-label">警報 ID</label>
                                         <input type="search" name="alertid" placeholder="ID.." class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label for="alerttitle" class=" form-control-label">Title</label>
-                                        <input type="search" name="alerttitle" placeholder="Title.." class="form-control">
+                                        <label for="alerttitle" class=" form-control-label">標題</label>
+                                        <input type="search" name="alerttitle" placeholder="標題.." class="form-control">
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-2">
-                                            <label for="select" class=" form-control-label">Select</label>
+                                            <label for="select" class=" form-control-label">選擇</label>
                                         </div>
                                         <div class="col-12 col-md-5">
                                             <select name="select" id="select" class="form-control">
-                                                <option name="select" value="">Please select</option>
+                                                <option name="select" value="">選項</option>
                                                 {% for status in alert_choice %}
                                                 <option name="select" value="{{status}}">{{status}}</option>
                                                 {% endfor %}
@@ -85,19 +85,19 @@
                                     </div>
                                     <div class="row p-b-5">
                                         <div class="col-lg-12">
-                                            <button type="submit" name='searching' class="btn btn-sm btn-secondary">Search</button>
+                                            <button type="submit" name='searching' class="btn btn-sm btn-secondary">搜索</button>
                                         </div>
                                     </div>    
                                 </form>
 
                                 <div class="row p-b-5">
                                     <div class="col">
-                                        <a href="{% url 'downloadcsv' alertdate=alertdate_query alertid=alertid_query alerttitle=alerttitle_query alertstatus=alertstatus_query%}  " class="btn btn-sm btn-success">Download CSV File</a>
+                                        <a href="{% url 'downloadcsv' alertdate=alertdate_query alertid=alertid_query alerttitle=alerttitle_query alertstatus=alertstatus_query%}  " class="btn btn-sm btn-success">下載CSV檔</a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <a href="{% url 'downloadpdf' alertdate=alertdate_query alertid=alertid_query alerttitle=alerttitle_query alertstatus=alertstatus_query%}" target="_blank" class="btn btn-sm btn-danger">Download PDF File</a>
+                                        <a href="{% url 'downloadpdf' alertdate=alertdate_query alertid=alertid_query alerttitle=alerttitle_query alertstatus=alertstatus_query%}" target="_blank" class="btn btn-sm btn-danger">下載PDF檔</a>
                                     </div>
                                 </div>
 
@@ -113,7 +113,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="scrollmodalLabel">Details</h5>
+                    <h5 class="modal-title" id="scrollmodalLabel">詳情</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
