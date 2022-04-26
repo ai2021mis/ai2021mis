@@ -15,14 +15,14 @@
                         <div class="statistic__item"> 
                             
                             <h2 class="number">{{daily_alerts}}</h2>
-                            <span id = "type_one" class="desc">today's alert </span>
+                            <span id = "type_one" class="desc">今日警報</span>
 
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="statistic__item ">
                             <h2 class="number">{{weekly_alerts}}</h2>
-                            <span id = "type_two" class="desc">this week's alert</span>
+                            <span id = "type_two" class="desc">本週警報</span>
                             <!--
                             <div class="icon">
                                 <i class="zmdi zmdi-shopping-cart"></i>
@@ -33,7 +33,7 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="statistic__item">
                             <h2 class="number">{{monthly_alerts}}</h2>
-                            <span id = "type_three" class="desc">this month's alert</span>
+                            <span id = "type_three" class="desc">本月警報</span>
                             <!--
                             <div class="icon">
                                 <i class="zmdi zmdi-calendar-note"></i>
@@ -45,7 +45,7 @@
                         <!-- so.. 0 is connected-->
                         <div class="statistic__item">
                             <h2 class="number">{{available_camera_on_count}} / {{available_camera_off_count}}</h2>
-                            <span id = "type_four" class="desc">available cammera</span>
+                            <span id = "type_four" class="desc">可用的裝置</span>
                             <!--
                             <div class="icon">
                                 <i class="zmdi zmdi-money"></i>
@@ -70,11 +70,11 @@
                             <table class="table table-borderless table-striped table-earning">
                                 <thead>
                                     <tr>
-                                        <th id="table_one">Created Date</th>
+                                        <th id="table_one">創建日期</th>
                                         <th id="table_two" >ID</th>
-                                        <th id="table_three" class="text-right">Title</th>
-                                        <th id="table_four" class="text-right">Status</th>
-                                        <th id="table_five" class="text-right">Details</th>
+                                        <th id="table_three" class="text-right">標題</th>
+                                        <th id="table_four" class="text-right">狀態</th>
+                                        <th id="table_five" class="text-right">詳情</th>
                                     </tr>
                                 </thead>
 
@@ -88,11 +88,11 @@
                                             <td class="text-right">
                                                 {% if x.alert == 0 %} <!-- For safe alert (green)-->
                                                     <button type="button" class="btn btn-outline-success mb-1" onclick="details_desc('{{x.id}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
-                                                        Details
+                                                        詳情
                                                     </button>
                                                 {% else %} <!-- For danger alert (red)-->
                                                     <button type="button" class="btn btn-outline-danger mb-1" onclick="details_desc('{{x.id}}')" data-toggle="modal" data-target="#scrollmodaldetails" >
-                                                        Details
+                                                        詳情
                                                     </button>
                                                 {% endif %}
                                             </td>
@@ -104,7 +104,7 @@
                                         <td></td>
                                         <td>
                                             <div class="user-data__footer">
-                                                <a id ="button_id" class="btn au-btn au-btn-load" href="{% url 'seemorealert' %}">Load More</a>
+                                                <a id ="button_id" class="btn au-btn au-btn-load" href="{% url 'seemorealert' %}">查看更多</a>
                                             </div>
                                         </td>
                                         <td></td>
@@ -128,7 +128,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="scrollmodalLabel">Details</h5>
+                    <h5 class="modal-title" id="scrollmodalLabel">詳情</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
