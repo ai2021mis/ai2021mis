@@ -43,14 +43,14 @@
                 <div class="login-wrap">
                     <div class="login-content">
                         <div class="login-logo">
-                            <h1>Forgot password</h1>
+                            <h1>忘記密碼</h1>
             
                         </div>
                         <div class="login-form">
                             <form method="POST">
                                 {% csrf_token %}
                                 <div class="form-group">
-                                    <label>to reset your password, we will send you a link to your email</label>
+                                    <label>要重置您的密碼，我們將向您發送一個指向您的電子郵件的鏈接</label>
                                     {{password_form}}
                                     <input class="au-input au-input--full" type="submit" name="Send email">
                                     

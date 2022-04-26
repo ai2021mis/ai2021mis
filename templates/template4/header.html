@@ -16,7 +16,7 @@
                 <img src="{%static 'template4/images/icon/no_profile.jpg'%}" alt="John Doe" />
             </div>
             <h4 class="name">{{ user_profile.name}}</h4>
-            <a href="{% url 'logout'%}">Sign out</a>
+            <a href="{% url 'logout'%}">登出</a>
         </div>
         <!-- END of Account profile -->
 
@@ -25,24 +25,24 @@
             <ul class="list-unstyled navbar__list">
                 <li>
                     <a id = "header_table_one" data-toggle="modal" data-target="#smallmodalprofile" href="#smallmodalprofile">
-                        <i class="zmdi zmdi-settings"></i>Profile</a>
+                        <i class="zmdi zmdi-settings"></i>個人資料</a>
                 </li>
                 <li>
                     <a id = "header_table_two" data-toggle="modal" data-target="#scrollmodaleditprofile" href="#scrollmodaleditprofile"> <!-- must include href, still dont know for sure why -->
-                        <i class="zmdi zmdi-account"></i>Edit Profile</a>
+                        <i class="zmdi zmdi-account"></i>編輯個人資料</a>
                 </li>
                 <li>
                     <a id = "header_table_three" data-toggle="modal" data-target="#scrollmodallineid" href="#scrollmodallineid">
-                        <i class="fab fa-line"></i>Line Account</a>
+                        <i class="fab fa-line"></i>Line帳號</a>
                 </li>
                 <li>
                     <a href="{% url 'camera_list' %}">
-                        <i class="fa-solid fa-list-ul"></i>Camera list
+                        <i class="fa-solid fa-list-ul"></i>裝置列表
                     </a>
                 </li>
                 <li>
                     <a href="{% url 'seemorealert' %}">
-                        <i class="fa-solid fa-clipboard-list"></i>Alert list
+                        <i class="fa-solid fa-clipboard-list"></i>警報列表
                     </a>
                 </li>
                 <!--
@@ -84,34 +84,30 @@
                 <ul class="navbar-mobile__list list-unstyled">
                     <li>
                         <a data-toggle="modal" data-target="#smallmodalprofile" href="#smallmodalprofile">
-                            <i class="zmdi zmdi-account"></i>Profile</a>
+                            <i class="zmdi zmdi-account"></i>個人資料</a>
                     </li>
                     <li>
                         <a data-toggle="modal" data-target="#scrollmodaleditprofile" href="#scrollmodaleditprofile">
-                            <i class="zmdi zmdi-settings"></i>Edit Profile</a>
+                            <i class="zmdi zmdi-settings"></i> 編輯個人資料</a>
                     </li>
                     <li>
                         <a data-toggle="modal" data-target="#scrollmodallineid" href="#scrollmodallineid">
-                            <i class="fab fa-line"></i>Line Account</a>
+                            <i class="fab fa-line"></i> Line帳號</a>
                     </li>
                     <li>
                         <a href="{% url 'camera_list' %}">
-                            <i class="fa-solid fa-list-ul"></i>Camera list
+                            <i class="fa-solid fa-list-ul"></i>裝置列表
                         </a>
                     </li>
                     <li>
                         <a href="{% url 'seemorealert' %}">
-                            <i class="fa-solid fa-clipboard-list"></i>Alert list
+                            <i class="fa-solid fa-clipboard-list"></i>警報列表
                         </a>
                     </li>
-                    <li>
-                        <a href="{% url 'logout'%}">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i>Sign out
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
-        </nav>      
+        </nav>
     </header>
 </div>
 <!-- END HEADER MOBILE-->
@@ -123,7 +119,7 @@
 				<div class="modal-dialog modal-md" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="smallmodalLabel">Profile Details</h5>
+							<h5 class="modal-title" id="smallmodalLabel">個人資料</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -132,7 +128,7 @@
 							<div class="card">
                                 <div class="card-header">
                                     <i class="fa fa-user"></i>
-                                    <strong class="card-title pl-2">Profile Card</strong>
+                                    <strong class="card-title pl-2">個人資料</strong>
                                 </div>
                                 <div class="card-body">
                                     <div class="mx-auto d-block">
@@ -166,7 +162,7 @@
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="scrollmodalLabel">Edit User Data</h5>
+							<h5 class="modal-title" id="scrollmodalLabel">修改個人資料</h5>
 						</div>
                         <!-- ID and NAME need to be check one by one so that can be more specified-->
 						<div class="modal-body">
@@ -176,7 +172,7 @@
                                     {% csrf_token %}
                                     <div class="row form-group">
                                         <div class="col col-md-3">
-                                            <label class=" form-control-label">Username:</label>
+                                            <label class=" form-control-label">用戶名稱:</label>
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <p class="form-control-static">{{username}}</p>
@@ -230,12 +226,11 @@
 
                                     <div class="row form-group">
                                         <div class="col col-md-3">
-                                            <label class=" form-control-label">Emergency Contact:</label>
+                                            <label class=" form-control-label">緊急聯繫人:</label>
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <p class="form-control-static">{{profile_form.emergency_contact}}</p>
-                                            <small class="help-block form-text">Add "&" to add more emergency contact </small>
-                                            <small class="help-block form-text">Example: james@0987&Tim@1234</small>
+                                            
                                         </div>
                                     </div>
                             </div>
@@ -243,7 +238,7 @@
                             
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-secondary">Cancel</button>
+							<button type="submit" class="btn btn-secondary">取消</button>
 							<button type="submit" class="btn btn-primary" name="saveprofile">更新</button>
 						</div>
 					</div>
@@ -256,7 +251,7 @@
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="scrollmodalLabel">Line Account</h5>
+							<h5 class="modal-title" id="scrollmodalLabel">Line帳號</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
