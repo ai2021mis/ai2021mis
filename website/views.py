@@ -215,7 +215,7 @@ def seemorealert(request):
 
     # Storing data to table #################################
     tableA =[]
-    date_format='Y年 m月 d日 (%H:%M:%S)'
+    date_format='%Y年 %m月 %d日 (%H:%M:%S)'
     for x in yolodata:
         tableB = []
         date = x.created_at.astimezone(timezone('Asia/Taipei'))
