@@ -25,7 +25,7 @@
                                 <tbody>
                                     {% for x in yolodata %}
                                         <tr>
-                                            <td>{{x.created_at|date:"Y年 m月 d日 "}} {{x.created_at|time:"(H:i)"}}</td>
+                                            <td>{{x.created_at|date:"Y年 m月 d日"}} {{x.created_at|time:"(H:i)"}}</td>
                                             <td>{{x.id}}</td>
                                             <td id="testing" class="text-right">{{x.title}}</td>
                                             <td class="text-right">{{ alert_choice|return_item:x.alert}}</td>
