@@ -32,7 +32,7 @@ class Company(models.Model):
 
 class employee(models.Model):
     gongHao = models.CharField(max_length=50, primary_key = True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50, null=True, blank=True, default='(No name)')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, default=2)
     email = models.CharField(max_length=100, null=True, blank=True)
@@ -52,11 +52,11 @@ class employee(models.Model):
         db_table = "employee"
 
 
-# @receiver(post_save, sender=employee)
-# def create_profile(sender, instance, created, **kwargs):
-#         emp = User.objects.get(User=instance.user)
-#         emp.email = 'ssss@gmail.com'
-#         emp.save()
+@receiver(post_save, sender=employee)
+def create_profile(sender, instance, created, **kwargs):
+        Target = User.objects.get(username=instance.user)
+        Target.email = instance.email
+        Target.save()
 
 #         # employee.user.email = 
 #         # target = User.objects.get(title = instance.identifier)
