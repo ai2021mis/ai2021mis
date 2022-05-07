@@ -234,19 +234,21 @@ def callback(request):
 
                 elif sent_message == '@常用聯繫人':
                     if employee.objects.filter(lineid=user_id).exists():
-                        user = employee.objects.get(lineid=user_id)
-                        user_emergency_contact_list = user.emergency_contact
-                        if user_emergency_contact_list != "":
-                            user_emergency_contact_list = user_emergency_contact_list.split("&")
-                            emergency_contact = EmengencyConatct()
-                            flex_message_2 = emergency_contact.create_contact_list(user_emergency_contact_list)
-                            line_bot_api.push_message(user_id, FlexSendMessage(alt_text='常用聯繫人', contents=flex_message_2))
-                            message = TextSendMessage(text="點擊按鈕，即可撥打~")
-                        else:
-                            flex_message = website_flex_message()
-                            flex_message_2 = FlexSendMessage(alt_text='@點此登入網頁控制台', contents=flex_message)
-                            message = TextSendMessage(text="無設定聯絡人資料，可上網登記聯繫人資料")
-                            line_bot_api.push_message(user_id, flex_message_2)
+                        users = employee.objects.filter(lineid=user_id)
+                        # user = employee.objects.get(lineid=user_id)
+                        for user in users:
+                            user_emergency_contact_list = user.emergency_contact
+                            if user_emergency_contact_list != "":
+                                user_emergency_contact_list = user_emergency_contact_list.split("&")
+                                emergency_contact = EmengencyConatct()
+                                flex_message_2 = emergency_contact.create_contact_list(user_emergency_contact_list)
+                                line_bot_api.push_message(user_id, FlexSendMessage(alt_text='常用聯繫人', contents=flex_message_2))
+                                message = TextSendMessage(text="點擊按鈕，即可撥打~")
+                            else:
+                                flex_message = website_flex_message()
+                                flex_message_2 = FlexSendMessage(alt_text='@點此登入網頁控制台', contents=flex_message)
+                                message = TextSendMessage(text="無設定聯絡人資料，可上網登記聯繫人資料")
+                                line_bot_api.push_message(user_id, flex_message_2)
 
                 elif sent_message == '@連續警報通知':
                     if employee.objects.filter(lineid=user_id).exists():

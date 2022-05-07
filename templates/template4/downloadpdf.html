@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>PDF alertlist</title>
+        <title>PDF 警報列表</title>
         <!-- Bootstrap CSS-->
         <link href="{%static 'template4/vendor/bootstrap-4.1/bootstrap.min.css'%}" rel="stylesheet" media="all">
         <style>
@@ -10,7 +10,7 @@
         </style>
     </head>
     <body>
-        <h1>Table alert list</h1>
+        <h1>警報列表</h1>
 
         <div class="container">
             <div class="row justify-content-center">
@@ -22,30 +22,31 @@
                             <tr><td></td></tr>
                             {% for x in yolodata%}
                             <tr>
-                                <td>{{x.id}}</td>
+                                <td>ID: {{x.id}}</td>
+
                                 {% if x.alert != 0 and image_yolofiles|seraching_image:x.id != 'None'%}
                                 <td rowspan="4">
                                     <img height="300px" width="450px" src="{{image_yolofiles|seraching_image:x.id}}" />
                                 </td>
                                 {% elif x.alert != 0 %}
                                 <td rowspan="4">
-                                    Image not upload yet
+                                    無圖片／圖片未上傳
                                 </td>
                                 {% else %}
                                 <td rowspan="4">
-                                    No danger found in the image
+                                    無危險
                                 </td>
                                 {% endif %}
                                 
                             </tr>
                             <tr>
-                                <td>{{x.created_at|date:"Y年 m月 d日 "}} {{x.created_at|time:"(H:i)"}}</td>
+                                <td>日期: {{x.created_at|date:"Y年 m月 d日 "}} {{x.created_at|time:"(H:i)"}}</td>
                             </tr>
                             <tr>
-                                <td>{{x.title}}</td>
+                                <td>標題: {{x.title}}</td>
                             </tr>
                             <tr>
-                                <td>{{ alert_choice|return_item:x.alert}}</td>
+                                <td>危險類別: {{ alert_choice|return_item:x.alert}}</td>
                             </tr>
                             <tr><td></td></tr>
                             <tr> <td><hr></td> <td><hr></td> </tr>
