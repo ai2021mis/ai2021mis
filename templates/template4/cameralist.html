@@ -35,9 +35,9 @@
                                                 </div>
                                                 <div class="col-6" style="text-align: right;">
                                                     {% if x.status == 0%}
-                                                    <i class="fa-solid fa-circle" style="color: green;"></i> Online
+                                                    <i class="fa-solid fa-circle" style="color: green;"></i> 已連線
                                                     {% else %}
-                                                    <i class="fa-solid fa-circle" style="color: red;"></i> Offline
+                                                    <i class="fa-solid fa-circle" style="color: red;"></i> 未連線
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -49,9 +49,9 @@
                                                 </div>
                                                 <div class="col-6" style="text-align: right;">
                                                     {% if x.status == 0%}
-                                                    <i class="fa-solid fa-circle" style="color: green;"></i> Online
+                                                    <i class="fa-solid fa-circle" style="color: green;"></i> 已連線
                                                     {% else %}
-                                                    <i class="fa-solid fa-circle" style="color: red;"></i> Offline
+                                                    <i class="fa-solid fa-circle" style="color: red;"></i> 未連線
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -121,7 +121,7 @@
                         <!-- TOP CAMPAIGN-->
                         <div class="top-campaign au-card">
                             <h1 class="m-b-30" style="text-align: center;">
-                                <span class="badge badge-success">Online 
+                                <span class="badge badge-success">已連線 
                                     <span class="badge badge-light">{{available_total}}</span>
                                 </span>
                             </h1>
@@ -147,7 +147,7 @@
                         <!-- TOP CAMPAIGN-->
                         <div class="top-campaign au-card">
                             <h1 class="m-b-30" style="text-align: center;">
-                                <span class="badge badge-danger">Offline 
+                                <span class="badge badge-danger">未連線 
                                     <span class="badge badge-light">{{unavailable_total}}</span>
                                 </span>
                             </h1>

@@ -20,7 +20,7 @@ class Picture_Files_Admin(admin.ModelAdmin):
 
 
 class JetsonNanoAdmin(admin.ModelAdmin):
-    list_display = ('ip', 'status')
+    list_display = ('ip', 'floor','status')
 
 
 

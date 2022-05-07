@@ -104,6 +104,11 @@
                             <i class="fa-solid fa-clipboard-list"></i>警報列表
                         </a>
                     </li>
+                    <li>
+                        <a href="{% url 'logout' %}">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>登出
+                        </a>
+                    </li>
                     
                 </ul>
             </div>
@@ -230,7 +235,8 @@
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <p class="form-control-static">{{profile_form.emergency_contact}}</p>
-                                            
+                                            <small class="help-block form-text">使用＆做分隔</small>
+                                            <small class="help-block form-text">例子: james@0987&Tim@1234</small>
                                         </div>
                                     </div>
                             </div>

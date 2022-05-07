@@ -240,7 +240,7 @@ def seemorealert(request):
 def downloadcsv(request,alertdate,alertid,alerttitle,alertstatus):
     # Response #################################
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=alertlist.csv'
+    response['Content-Disposition'] = 'attachment; filename=警報列表.csv'
 
     # yolo database (alerts) #################################
     yolodata = Yolo.objects.order_by('-created_at')
@@ -268,8 +268,8 @@ def downloadcsv(request,alertdate,alertid,alerttitle,alertstatus):
 
     # Write csv file #################################
     writer = csv.writer(response)
-    writer.writerow(['Date','ID','Title','Status'])
-    date_format='Y年 m月 d日 (%H:%M:%S)'
+    writer.writerow(['日期','ID','標題','危險類別'])
+    date_format='%Y年 %m月 %d日 (%H:%M:%S)'
     for x in yolodata:
         date = x.created_at.astimezone(timezone('Asia/Taipei'))
         writer.writerow([date.strftime(date_format) , x.id , x.title , alert_choice[x.alert]])

@@ -52,10 +52,16 @@ class employee(models.Model):
         db_table = "employee"
 
 
-# @receiver(post_save, sender=User)
+# @receiver(post_save, sender=employee)
 # def create_profile(sender, instance, created, **kwargs):
-#     if created:
-#         # emp = employee.objects.create(user=instance, password=generate_password())
-#         employee.objects.create(gongHao='1234', password=generate_password())
+#         emp = User.objects.get(User=instance.user)
+#         emp.email = 'ssss@gmail.com'
+#         emp.save()
+
+#         # employee.user.email = 
+#         # target = User.objects.get(title = instance.identifier)
+#         #     target = Yolo_Files.objects.get(yolo_id = target_yolo)
+#         #     target.image = instance.picture
+#         #     target.save()
 
 
