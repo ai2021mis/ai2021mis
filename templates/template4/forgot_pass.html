@@ -50,8 +50,10 @@
                             <form method="POST">
                                 {% csrf_token %}
                                 <div class="form-group">
-                                    <label>要重置您的密碼，我們將向您發送一個指向您的電子郵件的鏈接</label>
+                                    <label style="text-align: center;">要重置您的密碼，<br>我們將向您發送一個指向您的電子郵件的鏈接</label>
                                     {{password_form}}
+                                    <hr>
+                                    <br>
                                     <input class="au-input au-input--full" type="submit" name="Send email">
                                     
                             

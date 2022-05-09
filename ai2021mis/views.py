@@ -18,7 +18,7 @@ from django.conf import settings
 def LoginPage(request, page=''):
 
     if request.user.is_authenticated:
-        return redirect('homepage')
+        return redirect('home')
 
     else:
         # if request.session.test_cookie_worked():
@@ -40,7 +40,7 @@ def LoginPage(request, page=''):
                 if next_url != '' and next_url != "/logout/":
                     response = redirect(next_url)
                 else:
-                    response = redirect("homepage")
+                    response = redirect("home")
                     
 
                 if request.POST.get('remember_me'):
